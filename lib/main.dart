@@ -46,7 +46,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
@@ -122,6 +121,20 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text("FDNT"),
+              decoration: BoxDecoration(color: Colors.yellow),
+            ),
+            ListTile(
+              title: Text("Test"),
+            ),
+          ],
+        ),
       ),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
