@@ -1,6 +1,12 @@
+import 'package:fdnt/services/firebase_auth.dart';
+import 'package:fdnt/services/firebase_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fdnt/views/drawer_view.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -51,11 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+  static List<Widget> _widgetOptions = <Widget>[
+    RaisedButton(
+        child: Text('Login'),
+        onPressed: () async {
+          AuthFirebase()
+              .signIn(email: "konrad.startek@dzielo.pl", password: "");
+          FirebaseService().getTabs();
+        }),
     Text(
       'Index 1: Communicator',
       style: optionStyle,
@@ -122,20 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text("FDNT"),
-              decoration: BoxDecoration(color: Colors.yellow),
-            ),
-            ListTile(
-              title: Text("Test"),
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerView(),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
