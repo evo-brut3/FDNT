@@ -58,13 +58,23 @@ class _MyHomePageState extends State<MyHomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
-    RaisedButton(
-        child: Text('Login'),
-        onPressed: () async {
-          AuthFirebase()
-              .signIn(email: "konrad.startek@dzielo.pl", password: "");
-          FirebaseService().getTabs();
-        }),
+    Center(
+      child: Column(
+        children: [
+          RaisedButton(
+              child: Text('Login'),
+              onPressed: () async {
+                AuthFirebase()
+                    .signIn(email: "konrad.startek@dzielo.pl", password: "");
+              }),
+          RaisedButton(
+              child: Text('Get tabs'),
+              onPressed: () async {
+                FirebaseService().getTabs();
+              }),
+        ],
+      ),
+    ),
     Text(
       'Index 1: Communicator',
       style: optionStyle,
