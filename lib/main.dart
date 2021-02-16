@@ -3,6 +3,7 @@ import 'package:fdnt/services/firebase_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/views/drawer_view.dart';
+import 'package:fdnt/views/login_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,19 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     Center(
       child: Column(
-        children: [
-          RaisedButton(
-              child: Text('Login'),
-              onPressed: () async {
-                AuthFirebase()
-                    .signIn(email: "konrad.startek@dzielo.pl", password: "");
-              }),
-          RaisedButton(
-              child: Text('Get tabs'),
-              onPressed: () async {
-                FirebaseService().getTabs();
-              }),
-        ],
+        children: [LoginView()],
       ),
     ),
     Text(
