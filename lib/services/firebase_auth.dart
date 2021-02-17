@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 
-class AuthFirebase {
+import 'package:flutter/cupertino.dart';
+
+class AuthFirebase extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   AuthFirebase();
@@ -29,4 +31,10 @@ class AuthFirebase {
       }
     }
   }
+
+  Future<void> signOut() async {
+    return _firebaseAuth.signOut();
+  }
+
+  Stream<User> get onAuthChanges => _firebaseAuth.idTokenChanges();
 }
