@@ -1,18 +1,108 @@
+import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class FCalendarView extends StatelessWidget {
+
+class FCalendarView extends StatefulWidget {
+  @override
+  _FCalendarViewState createState() => _FCalendarViewState();
+}
+
+class _FCalendarViewState extends State<FCalendarView> with SingleTickerProviderStateMixin{
+  final CalendarController _calendarController = CalendarController();
+
+  Animation<double> _animation;
+  AnimationController _animationController;
+
+  @override
+  void initState(){
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 260),
+    );
+
+    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SfCalendar(
-      view: CalendarView.month,
-      firstDayOfWeek: 1,
-      dataSource: EventsDataSource(_getDataSource()),
-      monthViewSettings: MonthViewSettings(
-          appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
-    ));
+      body: SfCalendar(
+        view: CalendarView.month,
+        allowViewNavigation: true,
+        firstDayOfWeek: 1,
+        controller: _calendarController,
+        dataSource: EventsDataSource(_getDataSource()),
+        monthViewSettings: MonthViewSettings(
+            appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
+      ),
+
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        //Init Floating Action Bubble
+        floatingActionButton: FloatingActionBubble(
+          // Menu items
+          items: <Bubble>[
+            // Floating action menu item
+            Bubble(
+              title:"Dzień",
+              iconColor :Colors.white,
+              bubbleColor : Colors.blue,
+              icon: Icons.today,
+              titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
+              onPress: () {
+                _calendarController.view = CalendarView.day;
+                _animationController.reverse();
+              },
+            ),
+            // Floating action menu item
+            Bubble(
+              title:"Miesiąc",
+              iconColor :Colors.white,
+              bubbleColor : Colors.blue,
+              icon:Icons.calendar_today_sharp,
+              titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
+              onPress: () {
+                _calendarController.view = CalendarView.month;
+                _animationController.reverse();
+              },
+            ),
+            //Floating action menu item
+            Bubble(
+              title:"Dodaj",
+              iconColor :Colors.white,
+              bubbleColor : Colors.blue,
+              icon:Icons.add,
+              titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
+              onPress: () {
+                _animationController.reverse();
+              },
+            ),
+          ],
+
+          // animation controller
+          animation: _animation,
+
+          // On pressed change animation state
+          onPress: () {
+            if(_animationController.isCompleted) {
+              _animationController.reverse();
+            }
+            else {
+              _animationController.forward();
+            }
+            },
+
+
+          // Floating Action button Icon color
+          iconColor: Colors.blue,
+          // Flaoting Action button Icon
+          icon: AnimatedIcons.list_view,
+        )
+    );
   }
 }
 
@@ -69,3 +159,4 @@ class Event {
   Color background;
   bool isAllDay;
 }
+
