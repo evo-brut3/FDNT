@@ -1,3 +1,5 @@
+/* @TODO generate mail icon */
+
 import 'package:flutter/cupertino.dart';
 
 class Mail {
