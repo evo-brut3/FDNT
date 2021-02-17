@@ -1,5 +1,8 @@
-import 'package:fdnt/business_logic/models/drawer_model.dart';
+import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
+import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
+import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:fdnt/services/firebase_service.dart';
+import 'package:fdnt/views/email_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -72,17 +75,15 @@ class _LoginViewState extends State<LoginView> {
 }
 
 class SignInForm extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final drawerModel = DrawerModel();
-
   @override
   Widget build(BuildContext context) {
+    LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
+
     return Column(
       children: [
         Container(
           child: TextFormField(
-            controller: emailController,
+            controller: loginViewModel.emailController,
             decoration: InputDecoration(
                 border: const OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
@@ -99,7 +100,7 @@ class SignInForm extends StatelessWidget {
         ),
         Container(
           child: TextFormField(
-            controller: passwordController,
+            controller: loginViewModel.passwordController,
             decoration: InputDecoration(
                 border: const OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
@@ -122,13 +123,14 @@ class SignInForm extends StatelessWidget {
             animate: true,
             progressWidget: CircularProgressIndicator(),
             onPressed: () async {
-              await AuthFirebase().signIn(
-                  email: emailController.text.trim(),
-                  password: passwordController.text.trim());
+              await loginViewModel.signIn(
+                  email: loginViewModel.emailController.text.trim(),
+                  password: loginViewModel.passwordController.text.trim());
 
-              Provider.of<DrawerModel>(context, listen: false).clear();
-              Provider.of<DrawerModel>(context, listen: false)
-                  .addAll(await FirebaseService().getTabs());
+              await Provider.of<DrawerViewModel>(context, listen: false)
+                  .fetchTabs();
+              await Provider.of<EmailListViewModel>(context, listen: false)
+                  .fetchEmails();
             },
             color: Colors.yellow,
           ),

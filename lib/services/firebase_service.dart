@@ -8,10 +8,10 @@ import 'package:flutter/cupertino.dart';
 class FirebaseService {
   final databaseReference = FirebaseDatabase.instance.reference();
 
-  Future<List<Tab>> getTabs() async {
+  Future<List<Tab>> fetchTabs() async {
     String userName = await AuthFirebase().userName;
 
-    List<Tab> tabs = List<Tab>();
+    List<Tab> tabs = [];
     if (userName != null) {
       var tabsJson =
           (await databaseReference.child("users").child(userName).once()).value;
@@ -19,10 +19,10 @@ class FirebaseService {
       for (var tab in tabsJson.keys) {
         String tabAddress = await getTabAdress(tabName: tab);
         tabs.add(Tab(name: tab, website: tabAddress, image: ""));
-        debugPrint("[Added new tab] $tab : $tabAddress");
+        debugPrint("[FirebaseService] Fetched new tab - $tab : $tabAddress");
       }
     } else {
-      debugPrint("[User is not correctly signed in] userName is not defined");
+      debugPrint("[FirebaseService] User is not correctly signed in");
     }
 
     return tabs;
