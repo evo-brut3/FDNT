@@ -3,17 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FCalendarView extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SfCalendar(
-          view: CalendarView.month,
-          firstDayOfWeek: 1,
-          dataSource: EventsDataSource(_getDataSource()),
-          monthViewSettings: MonthViewSettings(
-              appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
-        ));
+      view: CalendarView.month,
+      firstDayOfWeek: 1,
+      dataSource: EventsDataSource(_getDataSource()),
+      monthViewSettings: MonthViewSettings(
+          appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
+    ));
   }
 }
 
@@ -22,17 +21,16 @@ List<Event> _getDataSource() {
   var events = <Event>[];
   final DateTime today = DateTime.now();
   final DateTime startTime =
-  DateTime(today.year, today.month, today.day, 9, 0, 0);
+      DateTime(today.year, today.month, today.day, 9, 0, 0);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
-  events.add(Event(
-      '', startTime, endTime, const Color(0xFF0F8644), false));
-  events.add(Event(
-      'Conference', startTime, endTime, const Color.fromRGBO(3, 10, 1000, 2), false));
+  events.add(Event('', startTime, endTime, const Color(0xFF0F8644), false));
+  events.add(Event('Conference', startTime, endTime,
+      const Color.fromRGBO(3, 10, 1000, 2), false));
   return events;
 }
 
 class EventsDataSource extends CalendarDataSource {
-  EventsDataSource(List<Event> source){
+  EventsDataSource(List<Event> source) {
     appointments = source;
   }
 
