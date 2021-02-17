@@ -15,7 +15,7 @@ class MailView extends StatelessWidget {
           itemCount: model.mailsList.length,
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              title: Text(model.mailsList[index]),
+              title: Text(model.mailsList[index].title),
             );
           }
       )

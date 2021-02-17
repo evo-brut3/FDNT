@@ -1,17 +1,19 @@
 import 'dart:collection';
+import 'package:fdnt/business_logic/data_types/mail.dart';
 import 'package:flutter/foundation.dart';
 
 class MailModel extends ChangeNotifier {
-  final List<String> _mailsList = ["przykladowy1", "przykladowy2"];
+  final List<Mail> _mailsList = [
+  Mail("tytuł", "john doe", "12:00", "wololololoolololololoolololololololo", false, false)
+  ];
 
-  UnmodifiableListView<String> get mailsList => UnmodifiableListView(_mailsList);
+  UnmodifiableListView<Mail> get mailsList => UnmodifiableListView(_mailsList);
 
-  void add(String mail) {
+  void add(Mail mail) {
     _mailsList.add(mail);
     notifyListeners();
   }
-
-  void addAll(List<String> mails) {
+  void addAll(List<Mail> mails) {
     _mailsList.addAll(mails);
     notifyListeners();
   }
