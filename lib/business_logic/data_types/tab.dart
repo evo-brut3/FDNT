@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class Tab {
-  String name;
-  String website;
-  String image;
+  final String name;
+  final String website;
+  final String image;
 
   Tab({this.name, this.website, this.image});
 }

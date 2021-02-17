@@ -1,6 +1,5 @@
 import 'dart:ui';
-
-import 'package:fdnt/business_logic/models/drawer_model.dart';
+import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +9,6 @@ class DrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var a = Provider.of<DrawerModel>(context, listen: true).tabsList.length;
-
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -20,19 +17,19 @@ class DrawerView extends StatelessWidget {
             child: Text("FDNT"),
             decoration: BoxDecoration(color: Colors.yellow),
           ),
-          createListTileFromTab(),
+          createListTileFromTab(context),
         ],
       ),
     );
   }
 
-  Widget createListTileFromTab() {
-    return Consumer<DrawerModel>(builder: (context, drawer, child) {
-      debugPrint("[Size of tabsList: ${drawer.tabsList.length}]");
+  Widget createListTileFromTab(BuildContext context) {
+    return Consumer<DrawerViewModel>(builder: (context, drawer, child) {
+      debugPrint("[Size of tabsList: ${drawer.tabs.length}]");
       return ListView.builder(
-        itemCount: drawer.tabsList.length,
+        itemCount: drawer.tabs.length,
         itemBuilder: (BuildContext context, int i) {
-          return ListTile(title: Text(drawer.tabsList[i].name));
+          return ListTile(title: Text(drawer.tabs[i].name));
         },
         scrollDirection: Axis.vertical,
         shrinkWrap: true,

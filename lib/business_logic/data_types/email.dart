@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 
-class Mail {
+class Email {
   String title;
   String sender;
   //Image senderIcon;
@@ -11,6 +11,11 @@ class Mail {
   bool isRead;
   bool isImportant;
 
-  Mail(this.title, this.sender, this.sendTime,
-    this.content, this.isRead, this.isImportant);
+  Email(
+      {this.title,
+      this.sender,
+      this.sendTime,
+      this.content,
+      this.isRead,
+      this.isImportant});
 }

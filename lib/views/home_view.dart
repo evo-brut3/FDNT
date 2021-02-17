@@ -1,9 +1,11 @@
+import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/login_view.dart';
-import 'package:fdnt/views/mail_view.dart';
+import 'package:fdnt/views/email_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -29,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'Index 1: Communicator',
       style: optionStyle,
     ),
-    Center(child : MailView()),
+    Center(child: EmailListView()),
     Center(child: FCalendarView()),
     Text(
       'Index 4: Info',

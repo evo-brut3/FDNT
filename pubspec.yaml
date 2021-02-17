@@ -39,6 +39,7 @@ dependencies:
   syncfusion_flutter_calendar: ^18.4.43
   floating_action_bubble: 1.0.9
   flutter_progress_button: ^1.0.0
+  enough_mail: ^0.2.1
 
 
 dev_dependencies:
