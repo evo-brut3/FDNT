@@ -1,3 +1,6 @@
+import 'dart:js';
+
+import 'package:fdnt/business_logic/models/drawer_model.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/services/firebase_service.dart';
 import 'package:fdnt/views/root_view.dart';
@@ -11,7 +14,10 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => DrawerModel(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

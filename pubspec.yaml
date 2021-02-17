@@ -37,6 +37,7 @@ dependencies:
   provider: ^4.3.3
   shared_preferences: ^0.5.12+4
   syncfusion_flutter_calendar: ^18.4.43
+  flutter_progress_button: ^1.0.0
 
 dev_dependencies:
   flutter_test:
