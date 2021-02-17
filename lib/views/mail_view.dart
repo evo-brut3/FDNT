@@ -12,29 +12,34 @@ class MailView extends StatelessWidget {
       body: ListView.builder(
           itemCount: model.mailsList.length,
           itemBuilder: (BuildContext context, int index) {
-            return Column (
-              crossAxisAlignment: CrossAxisAlignment.start,
+            return Row (
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                  child: Text(
-                      model.mailsList[index].sender,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                      )
-                  )
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+                        child: Text(
+                            model.mailsList[index].sender,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold
+                            )
+                        )
 
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
-                child: Text(
-                    model.mailsList[index].title,
-                    style: TextStyle(
-                      fontSize: 15,
                     ),
-                ),
-                ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(10, 5, 0, 0),
+                      child: Text(
+                        model.mailsList[index].title,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             );
           }
