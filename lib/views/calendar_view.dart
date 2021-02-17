@@ -3,6 +3,8 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'home_view.dart';
+
 
 class FCalendarView extends StatefulWidget {
   @override
@@ -39,6 +41,16 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
         dataSource: EventsDataSource(_getDataSource()),
         monthViewSettings: MonthViewSettings(
             appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
+        onTap: (CalendarTapDetails details) {
+          // Show an event when which was tapped
+          if(details.appointments != null &&  details.appointments.length == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context)
+              => EventShow(details.appointments.first)),
+            );
+          }
+        },
       ),
 
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -106,6 +118,104 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
   }
 }
 
+// An event showing
+class EventShow extends StatelessWidget {
+  final Event event;
+  EventShow(this.event);
+
+  final TextStyle textStyle = TextStyle(
+      fontSize: 20,
+      color: Colors.black,
+      );
+
+  final EdgeInsets globalInsets = EdgeInsets.symmetric(horizontal: 15, vertical: 13);
+  final EdgeInsets textInsets = EdgeInsets.symmetric(horizontal: 15);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: AppBar(),
+      body: ListView(
+        children: [
+          Container(
+            margin: globalInsets,
+            child: Row(
+            children: [
+              Icon(Icons.circle, color: event.background),
+              Flexible(
+                  child: Container( margin: textInsets,
+                  child: Text(event.eventName,
+                    style: textStyle, overflow: TextOverflow.ellipsis,))
+              )
+            ],
+          )),
+          Container(
+              margin: globalInsets,
+              child: Row(
+                children: [
+                  Icon(Icons.event),
+                  Flexible(
+                      child: Container( margin: textInsets,
+                          child: Text("Do kogo kierowany????",
+                            style: textStyle, overflow: TextOverflow.ellipsis,))
+                  )
+                ],
+              )),
+          Container(
+              margin: globalInsets,
+              child: Row(
+                children: [
+                  Icon(Icons.access_time),
+                  Flexible(
+                      child: Container( margin: textInsets,
+                          child: Text(event.from.toString(),
+                            style: textStyle, overflow: TextOverflow.ellipsis,))
+                  )
+                ],
+              )),
+          Container(
+              margin: globalInsets,
+              child: Row(
+                children: [
+                  Icon(null),
+                  Flexible(
+                      child: Container( margin: textInsets,
+                          child: Text(event.to.toString(),
+                            style: textStyle, overflow: TextOverflow.ellipsis,))
+                  )
+                ],
+              )),
+          Container(
+              margin: globalInsets,
+              child: Row(
+                children: [
+                  Icon(Icons.location_on),
+                  Flexible(
+                      child: Container( margin: textInsets,
+                          child: Text('Gdzie to jest????',
+                            style: textStyle, overflow: TextOverflow.ellipsis,))
+                  )
+                ],
+              )),
+          Container(
+              margin: globalInsets,
+              child: Row(
+                children: [
+                  Icon(Icons.people_alt_rounded),
+                  Flexible(
+                      child: Container( margin: textInsets,
+                          child: Text('Ile osób??',
+                            style: textStyle, overflow: TextOverflow.ellipsis,))
+                  )
+                ],
+              )),
+        ],
+      )
+    );
+  }
+
+}
+
 // TODO: this function should return real events
 List<Event> _getDataSource() {
   var events = <Event>[];
@@ -113,7 +223,7 @@ List<Event> _getDataSource() {
   final DateTime startTime =
       DateTime(today.year, today.month, today.day, 9, 0, 0);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
-  events.add(Event('', startTime, endTime, const Color(0xFF0F8644), false));
+  events.add(Event('Fajne wydarzenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1', startTime, endTime, const Color(0xFF0F8644), false));
   events.add(Event('Conference', startTime, endTime,
       const Color.fromRGBO(3, 10, 1000, 2), false));
   return events;
@@ -159,4 +269,5 @@ class Event {
   Color background;
   bool isAllDay;
 }
+
 
