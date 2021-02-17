@@ -1,6 +1,7 @@
 import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/login_view.dart';
+import 'package:fdnt/views/mail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -28,10 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'Index 1: Communicator',
       style: optionStyle,
     ),
-    Text(
-      'Index 2: Mails',
-      style: optionStyle,
-    ),
+    Center(child : MailView()),
     Center(child: FCalendarView()),
     Text(
       'Index 4: Info',

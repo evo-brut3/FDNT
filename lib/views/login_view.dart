@@ -1,7 +1,11 @@
+import 'package:fdnt/business_logic/models/drawer_model.dart';
+import 'package:fdnt/services/firebase_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fdnt/services/firebase_auth.dart';
+import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key}) : super(key: key);
@@ -70,6 +74,7 @@ class _LoginViewState extends State<LoginView> {
 class SignInForm extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final drawerModel = DrawerModel();
 
   @override
   Widget build(BuildContext context) {
@@ -111,21 +116,22 @@ class SignInForm extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         ),
         Container(
-          child: ElevatedButton(
-              onPressed: () {
-                AuthFirebase().signIn(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim());
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
-                child: Text(
-                  "Zaloguj się",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-              )),
+          child: ProgressButton(
+            borderRadius: 8.0,
+            defaultWidget: Text("Zaloguj się"),
+            animate: true,
+            progressWidget: CircularProgressIndicator(),
+            onPressed: () async {
+              await AuthFirebase().signIn(
+                  email: emailController.text.trim(),
+                  password: passwordController.text.trim());
+
+              Provider.of<DrawerModel>(context, listen: false).clear();
+              Provider.of<DrawerModel>(context, listen: false)
+                  .addAll(await FirebaseService().getTabs());
+            },
+            color: Colors.yellow,
+          ),
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         ),
         Container(
@@ -147,4 +153,15 @@ class SignInForm extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<void> connectToFirebase() async {}
+
+Widget createWaitingView() {
+  return Scaffold(
+    body: Container(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator(),
+    ),
+  );
 }

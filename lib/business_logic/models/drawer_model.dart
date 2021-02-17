@@ -13,6 +13,11 @@ class DrawerModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clear() {
+    _tabsList.clear();
+    notifyListeners();
+  }
+
   void addAll(List<Tab> tabs) {
     _tabsList.addAll(tabs);
     notifyListeners();
