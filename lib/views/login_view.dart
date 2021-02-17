@@ -126,27 +126,12 @@ class SignInForm extends StatelessWidget {
                   email: emailController.text.trim(),
                   password: passwordController.text.trim());
 
+              Provider.of<DrawerModel>(context, listen: false).clear();
               Provider.of<DrawerModel>(context, listen: false)
                   .addAll(await FirebaseService().getTabs());
             },
             color: Colors.yellow,
           ),
-          // child: ElevatedButton(
-          //     onPressed: () {
-          //       AuthFirebase().signIn(
-          //           email: emailController.text.trim(),
-          //           password: passwordController.text.trim()).whenComplete(() => );
-          //     },
-          //     child: Container(
-          //       alignment: Alignment.center,
-          //       padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
-          //       child: Text(
-          //         "Zaloguj się",
-          //         textAlign: TextAlign.center,
-          //         style: TextStyle(fontSize: 16),
-          //       ),
-          //     )
-          //   ),
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
         ),
         Container(

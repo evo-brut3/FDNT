@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:fdnt/business_logic/models/drawer_model.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/services/firebase_service.dart';

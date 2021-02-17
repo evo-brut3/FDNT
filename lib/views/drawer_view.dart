@@ -10,6 +10,8 @@ class DrawerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var a = Provider.of<DrawerModel>(context, listen: true).tabsList.length;
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -25,17 +27,16 @@ class DrawerView extends StatelessWidget {
   }
 
   Widget createListTileFromTab() {
-    return Consumer<DrawerModel>(
-      builder: (context, drawer, child) {
-        debugPrint("[Size of tabsList: ${drawer.tabsList.length}]");
-
-        return ListView.builder(
-          itemCount: drawer.tabsList.length,
-          itemBuilder: (BuildContext context, int i) {
-            return Text("ASD"); //ListTile(title: Text("$model.tabsList[i])"));
-          },
-        );
-      },
-    );
-
+    return Consumer<DrawerModel>(builder: (context, drawer, child) {
+      debugPrint("[Size of tabsList: ${drawer.tabsList.length}]");
+      return ListView.builder(
+        itemCount: drawer.tabsList.length,
+        itemBuilder: (BuildContext context, int i) {
+          return ListTile(title: Text(drawer.tabsList[i].name));
+        },
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+      );
+    });
+  }
 }
