@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 class MailModel extends ChangeNotifier {
   final List<Mail> _mailsList = [
-    Mail("tytuł", "john doe", "12:00", "wololololoolololololoolololololololo",
+    Mail("ważny mail", "john doe", "12:00", "wololololoolololololoolololololololo",
         false, false)
   ];
 
