@@ -1,5 +1,6 @@
 /* @TODO generate mail icon */
 
+import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/cupertino.dart';
 
 class Email {
@@ -7,7 +8,7 @@ class Email {
   String sender;
   //Image senderIcon;
   String sendTime;
-  String content;
+  MimeMessage content;
   bool isRead;
   bool isImportant;
 

@@ -25,11 +25,11 @@ class AuthFirebase extends ChangeNotifier {
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        debugPrint('[No user found for that email] user-not-found');
+        debugPrint("[AuthFirebase] No user found for that email");
       } else if (e.code == 'wrong-password') {
-        debugPrint('[Wrong password provided for that user] wrong-password');
+        debugPrint("[AuthFirebase] Wrong password provided for that user");
       } else {
-        debugPrint("[Other exception] $e");
+        debugPrint("[AuthFirebase] Other exception $e");
       }
     }
   }
