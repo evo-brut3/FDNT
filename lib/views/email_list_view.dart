@@ -65,6 +65,18 @@ class EmailListView extends StatelessWidget {
               ),
             );
           });
-    }));
+
+        }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text("clicked!"),
+              duration: const Duration(seconds: 1),
+          ));
+        },
+        child: Icon(Icons.add)
+      ),
+    );
   }
 }
