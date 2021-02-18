@@ -1,4 +1,6 @@
 import 'package:enough_mail/enough_mail.dart';
+import 'package:enough_mail_flutter/enough_mail_flutter.dart';
+import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -43,7 +45,8 @@ class EmailService {
                 title: msg.decodeSubject(),
                 sender: msg.decodeSender().join(),
                 sendTime: msg.decodeDate().toString(),
-                content: msg,
+                // TODO: Download message only when user wants to display it
+                content: msg.transformToHtml(),
                 isRead: false,
                 isImportant: false));
         debugPrint(msg.decodeTextPlainPart());
@@ -55,6 +58,10 @@ class EmailService {
     }
 
     return mails;
+  }
+
+  Future<FetchImapResult> downloadEmail(int messageSequenceId) async {
+    return await client.fetchMessage(messageSequenceId, "BODY[]");
   }
 
   // Future<List<Email>> fetchMails() async {

@@ -10,7 +10,7 @@ class EmailListViewModel extends ChangeNotifier {
 
   Future<void> fetchEmails() async {
     final results = await EmailService().fetchImapEmails();
-    this.emails = results.map((email) => EmailViewModel(email: email)).toList();
+    this.emails = results.map((email) => EmailViewModel(email)).toList();
     notifyListeners();
   }
 }
@@ -18,10 +18,10 @@ class EmailListViewModel extends ChangeNotifier {
 class EmailViewModel {
   final Email email;
 
-  EmailViewModel({this.email});
+  EmailViewModel(this.email);
 
   String get title => this.email.title;
-  MimeMessage get content => this.email.content;
+  String get content => this.email.content;
   String get sender => this.email.sender;
   String get sendTime => this.email.sendTime;
   bool get isImportant => this.email.isImportant;

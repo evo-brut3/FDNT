@@ -8,7 +8,7 @@ class Email {
   String sender;
   //Image senderIcon;
   String sendTime;
-  MimeMessage content;
+  String content;
   bool isRead;
   bool isImportant;
 
