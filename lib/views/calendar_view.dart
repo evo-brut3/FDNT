@@ -1,4 +1,5 @@
 import 'package:floating_action_bubble/floating_action_bubble.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,6 +131,7 @@ class EventShow extends StatelessWidget {
 
   final EdgeInsets globalInsets = EdgeInsets.symmetric(horizontal: 15, vertical: 13);
   final EdgeInsets textInsets = EdgeInsets.symmetric(horizontal: 15);
+  final dateFormat = new DateFormat('yyyy-MM-dd hh:mm');
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +170,7 @@ class EventShow extends StatelessWidget {
                   Icon(Icons.access_time),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(event.from.toString(),
+                          child: Text(dateFormat.format(event.from),
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
@@ -180,7 +182,7 @@ class EventShow extends StatelessWidget {
                   Icon(null),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(event.to.toString(),
+                          child: Text(dateFormat.format(event.to),
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],

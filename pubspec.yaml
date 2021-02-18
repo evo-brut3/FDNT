@@ -40,6 +40,7 @@ dependencies:
   floating_action_bubble: 1.0.9
   flutter_progress_button: ^1.0.0
   enough_mail: ^0.2.1
+  intl: ^0.16.1
 
 
 dev_dependencies:
