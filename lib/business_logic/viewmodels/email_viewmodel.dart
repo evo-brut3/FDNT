@@ -24,6 +24,8 @@ class EmailViewModel {
   String get content => this.email.content;
   String get sender => this.email.sender;
   String get sendTime => this.email.sendTime;
+  String get dayTime => this.email.dayTime();
+  String get senderName => this.email.getSenderName();
   bool get isImportant => this.email.isImportant;
   bool get isRead => this.email.isRead;
 }
