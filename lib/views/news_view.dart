@@ -13,7 +13,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'email_tab/email_preview_view.dart';
+import 'email_preview_view.dart';
 
 class NewsView extends StatelessWidget {
   String getCoverImage(String html) {
@@ -32,66 +32,66 @@ class NewsView extends StatelessWidget {
               itemCount: model.posts.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () => {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context)
-                    => NewsShow(model.posts[index]))
-                  )
-                  },
+                    onTap: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)
+                          => NewsShow(model.posts[index]))
+                      )
+                    },
                     child: Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.grey, width: 0.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                    child: ClipRRect (
-                      borderRadius: BorderRadius.circular(12),
-                    child: Stack(
-                    children: [Container(
-                    height: 200,
-                    child: Container(
-                      child: Html(
-                        data: """
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.grey, width: 0.5),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                        child: ClipRRect (
+                            borderRadius: BorderRadius.circular(12),
+                            child: Stack(
+                                children: [Container(
+                                    height: 200,
+                                    child: Container(
+                                      child: Html(
+                                        data: """
                         <body><div><img src='##'></div></body>
                         """.replaceAll("##", getCoverImage(model.posts[index].html)),
-                        style: {
-                          "body": Style(
-                            margin: EdgeInsets.zero,
-                          ),
-                          "div": Style(
-                          )
-                        },
-                      ),
-                    )
-                ), Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: new Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 40.0,
-                          decoration: new BoxDecoration(color:
-                            Colors.grey.withOpacity(0.3),
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                            child: Text(model.posts[index].title,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold
-                                )),
-                          ))),
-                      // This widget is added to catch taps on image (otherwise it thew errors)
-                      Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 40,
-                          top: 0,
-                          child: Container(decoration: new BoxDecoration(color:
-                          Colors.grey.withOpacity(0.02))))
-                    ]))));
+                                        style: {
+                                          "body": Style(
+                                            margin: EdgeInsets.zero,
+                                          ),
+                                          "div": Style(
+                                          )
+                                        },
+                                      ),
+                                    )
+                                ), Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    child: new Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 40.0,
+                                        decoration: new BoxDecoration(color:
+                                        Colors.grey.withOpacity(0.3),
+                                        ),
+                                        child: Container(
+                                          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                          child: Text(model.posts[index].title,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold
+                                              )),
+                                        ))),
+                                  // This widget is added to catch taps on image (otherwise it thew errors)
+                                  Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 40,
+                                      top: 0,
+                                      child: Container(decoration: new BoxDecoration(color:
+                                      Colors.grey.withOpacity(0.02))))
+                                ]))));
               });
         }));
   }
@@ -104,19 +104,25 @@ class NewsShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey,),
-      body: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              child: Text(post.title, style: TextStyle(fontSize: 20))
-            ),
-            Html(
-        data: post.html
-      )]
-    ));
+        body: Column(
+            children: [
+              Container(
+                  margin: MediaQuery.of(context).padding,
+                  child: Row(
+                      children: [
+                        BackButton(),
+                        Container(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                            child: Text(post.title, style: TextStyle(fontSize: 20))
+                        )])),
+              SingleChildScrollView(
+                child: Html(
+                    data: post.html
+                ),
+
+              )
+            ]
+        ));
   }
-
-
 }

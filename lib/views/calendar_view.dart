@@ -136,7 +136,7 @@ class EventShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.white60,),
       body: ListView(
         children: [
           Container(
