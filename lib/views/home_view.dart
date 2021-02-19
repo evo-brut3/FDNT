@@ -41,13 +41,28 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  String selectedName() {
+    switch(_selectedIndex) {
+      case 0:
+        return "Ogłoszenia";
+      case 1:
+        return "Komunikator";
+      case 2:
+        return "Poczta";
+      case 3:
+        return "Kalendarz";
+      case 4:
+        return "O Fundacji";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: DrawerView(),
       appBar: CustomBarWidget(
-        title: "FDNT",
+        title: selectedName(),
         onTap : () {
           _scaffoldKey.currentState.openDrawer();
         }),

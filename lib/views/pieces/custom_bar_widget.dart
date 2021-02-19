@@ -28,7 +28,7 @@ class CustomBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                     ),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.94,
+                      width: MediaQuery.of(context).size.width * 0.91,
                       height: 40,
                       child: Align(
                         alignment: Alignment.center,
