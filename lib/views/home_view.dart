@@ -4,7 +4,7 @@ import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/login_view.dart';
 import 'package:fdnt/views/email_list_view.dart';
 import 'package:fdnt/views/news_view.dart';
-import 'package:fdnt/views/pieces/custom_bar_widget.dart';
+import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: DrawerView(),
-      appBar: CustomBarWidget(
+      appBar: CustomAppBar(
         title: selectedName(),
         onTap : () {
           _scaffoldKey.currentState.openDrawer();
