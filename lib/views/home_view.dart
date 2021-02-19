@@ -4,6 +4,7 @@ import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/login_view.dart';
 import 'package:fdnt/views/email_list_view.dart';
 import 'package:fdnt/views/news_view.dart';
+import 'package:fdnt/views/pieces/custom_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle =
@@ -42,9 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("FDNT"),
-      ),
+      key: _scaffoldKey,
+      endDrawer: DrawerView(),
+      appBar: CustomBarWidget(
+        title: "FDNT",
+        onTap : () {
+          _scaffoldKey.currentState.openDrawer();
+        }),
       body: Center(
           child: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
