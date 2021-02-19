@@ -1,6 +1,7 @@
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
+import 'package:fdnt/services/email_service.dart';
 import 'package:fdnt/services/firebase_service.dart';
 import 'package:fdnt/views/email_list_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,7 +131,7 @@ class SignInForm extends StatelessWidget {
               await Provider.of<DrawerViewModel>(context, listen: false)
                   .fetchTabs();
               await Provider.of<EmailListViewModel>(context, listen: false)
-                  .fetchEmails();
+                  .fetchEmails(loginViewModel.email, loginViewModel.password);
             },
             color: Colors.yellow,
           ),

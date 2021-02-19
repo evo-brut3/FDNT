@@ -6,11 +6,14 @@ import 'package:flutter/cupertino.dart';
 
 class EmailService {
 
-  String _userName;
+  String _email;
   String _password;
 
-  EmailService(userName, password) {
-    _userName = userName;
+  set email(String email) {
+    _email = email;
+  }
+
+  set password(String password) {
     _password = password;
   }
 
@@ -32,7 +35,8 @@ class EmailService {
           isSecure: _isImapServerSecure);
 
       debugPrint("[EmailService] Logging in...");
-      await client.login(_userName, _password);
+      debugPrint(_email + _password);
+      await client.login(_email, _password);
 
       debugPrint("[EmailService] Listing mailboxes...");
       final mailboxes = await client.listMailboxes();
