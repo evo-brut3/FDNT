@@ -21,18 +21,19 @@ Widget EmailsListView(EmailListViewModel model) {
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Image.asset(
                   "assets/images/person_icon.png",
                   width: 50,
-                  height: 50,
+                  height: MediaQuery.of(context).size.height * 0.11,
                 ),
               ),
               SizedBox(
-                height: 40,
-                width: 200,
+                height: MediaQuery.of(context).size.height * 0.11,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -45,6 +46,7 @@ Widget EmailsListView(EmailListViewModel model) {
                     Flexible(
                         child: Text(model.emails[index].title,
                           style: TextStyle(color: Color(0xff878787)),
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         )
                     )
@@ -52,7 +54,7 @@ Widget EmailsListView(EmailListViewModel model) {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.1, 0, 0, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [Text(model.emails[index].dayTime)],
