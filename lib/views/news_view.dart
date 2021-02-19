@@ -31,7 +31,15 @@ class NewsView extends StatelessWidget {
           return ListView.builder(
               itemCount: model.posts.length,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
+                return GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)
+                    => NewsShow(model.posts[index]))
+                  )
+                  },
+                    child: Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.grey, width: 0.5),
                       borderRadius: BorderRadius.circular(10),
@@ -83,16 +91,31 @@ class NewsView extends StatelessWidget {
                           top: 0,
                           child: Container(decoration: new BoxDecoration(color:
                           Colors.grey.withOpacity(0.02))))
-                    ])));
+                    ]))));
               });
         }));
   }
 }
 
-class PostPreview extends Container {
-  final Post post;
-  PostPreview(this.post);
+class NewsShow extends StatelessWidget {
+  final NewsViewModel post;
+  NewsShow(this.post);
 
   @override
-  Widget get child => Text(post.title);
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: Text(post.title, style: TextStyle(fontSize: 20))
+            ),
+            Html(
+        data: post.html
+      )]
+    ));
+  }
+
+
 }
