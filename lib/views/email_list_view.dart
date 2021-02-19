@@ -1,4 +1,5 @@
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
+import 'package:fdnt/views/create_mail_view.dart';
 import 'package:fdnt/views/email_preview_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class EmailListView extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(40, 0, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [Text(model.emails[index].dayTime)],
@@ -70,10 +71,15 @@ class EmailListView extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          /*ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: const Text("clicked!"),
               duration: const Duration(seconds: 1),
-          ));
+          ));*/
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CreateMailView())
+          );
         },
         child: Icon(Icons.add)
       ),
