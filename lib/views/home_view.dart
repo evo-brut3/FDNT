@@ -3,6 +3,7 @@ import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/login_view.dart';
 import 'package:fdnt/views/email_list_view.dart';
+import 'package:fdnt/views/news_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -22,21 +23,14 @@ class _MyHomePageState extends State<MyHomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
-    Center(
-      child: Column(
-        children: [SignInForm()],
-      ),
-    ),
+    Center(child: NewsView()),
     Text(
       'Index 1: Communicator',
       style: optionStyle,
     ),
     Center(child: EmailListView()),
     Center(child: FCalendarView()),
-    Text(
-      'Index 4: Info',
-      style: optionStyle,
-    ),
+    Center(child: SignInForm())
   ];
 
   void _onItemTapped(int index) {

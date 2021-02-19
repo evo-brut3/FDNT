@@ -4,7 +4,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'home_view.dart';
+import 'package:fdnt/business_logic/data_types/event.dart';
 
 
 class FCalendarView extends StatefulWidget {
@@ -147,7 +147,7 @@ class EventShow extends StatelessWidget {
               Flexible(
                   child: Container( margin: textInsets,
                   child: Text(event.eventName,
-                    style: textStyle, overflow: TextOverflow.ellipsis,))
+                    style: textStyle, overflow: TextOverflow.clip, maxLines: 3,))
               )
             ],
           )),
@@ -158,7 +158,7 @@ class EventShow extends StatelessWidget {
                   Icon(Icons.event),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text("Do kogo kierowany????",
+                          child: Text(event.forWho,
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
@@ -225,9 +225,9 @@ List<Event> _getDataSource() {
   final DateTime startTime =
       DateTime(today.year, today.month, today.day, 9, 0, 0);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
-  events.add(Event('Fajne wydarzenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1', startTime, endTime, const Color(0xFF0F8644), false));
+  events.add(Event('Fajne wydarzenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!22222222222222222222222222222222222222222222222222222222222222222222222222222!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1', startTime, endTime, const Color(0xFF0F8644), "Dla stypendystów"));
   events.add(Event('Conference', startTime, endTime,
-      const Color.fromRGBO(3, 10, 1000, 2), false));
+      const Color.fromRGBO(3, 10, 1000, 2), "dla warszawy"));
   return events;
 }
 
@@ -255,21 +255,7 @@ class EventsDataSource extends CalendarDataSource {
   Color getColor(int index) {
     return appointments[index].background;
   }
-
-  @override
-  bool isAllDay(int index) {
-    return appointments[index].isAllDay;
-  }
 }
 
-class Event {
-  Event(this.eventName, this.from, this.to, this.background, this.isAllDay);
-
-  String eventName;
-  DateTime from;
-  DateTime to;
-  Color background;
-  bool isAllDay;
-}
 
 
