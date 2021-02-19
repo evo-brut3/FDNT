@@ -7,9 +7,13 @@ import 'package:flutter/cupertino.dart';
 
 class EmailListViewModel extends ChangeNotifier {
   List<EmailViewModel> emails = [];
+  final String email;
+  final String password;
+
+  EmailListViewModel({this.email, this.password});
 
   Future<void> fetchEmails() async {
-    final results = await EmailService().fetchImapEmails();
+    final results = await EmailService(this.email, this.password).fetchImapEmails();
     this.emails = results.map((email) => EmailViewModel(email)).toList();
     notifyListeners();
   }

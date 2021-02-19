@@ -5,11 +5,19 @@ import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmailService {
+
+  String _userName;
+  String _password;
+
+  EmailService(userName, password) {
+    _userName = userName;
+    _password = password;
+  }
+
   final client = ImapClient(isLogEnabled: false);
 
-  String _userName = 'konrad.startek@dzielo.pl';
+
   String _domain = "dzielo.pl";
-  String _password = 'yCFRJIR!Tz7B';
 
   String _imapServerHost = "mail.dzielo.pl";
   int _imapServerPort = 993;
