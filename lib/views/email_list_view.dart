@@ -2,6 +2,7 @@ import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/views/email_preview_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 class EmailListView extends StatelessWidget {
@@ -9,7 +10,7 @@ class EmailListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Consumer<EmailListViewModel>(builder: (context, model, child) {
-      return ListView.builder(
+        return ListView.builder(
           itemCount: model.emails.length,
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
@@ -31,28 +32,51 @@ class EmailListView extends StatelessWidget {
                       height: 50,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(model.emails[index].sender,
-                          style: TextStyle(fontSize: 17)),
-                      Text(model.emails[index].title,
-                          style: TextStyle(
-                            color: Color(0xff878787),
-                          ))
-                    ],
+                  SizedBox(
+                    height: 40,
+                    width: 200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(model.emails[index].senderName,
+                              style: TextStyle(fontSize: 17),
+                              overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Flexible(
+                            child: Text(model.emails[index].title,
+                              style: TextStyle(color: Color(0xff878787)),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                        )
+
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [Text(model.emails[index].sendTime)],
+                      children: [Text(model.emails[index].dayTime)],
                     ),
                   )
                 ],
               ),
             );
           });
-    }));
+
+        }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text("clicked!"),
+              duration: const Duration(seconds: 1),
+          ));
+        },
+        child: Icon(Icons.add)
+      ),
+    );
   }
 }
