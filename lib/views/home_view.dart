@@ -1,8 +1,9 @@
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/drawer_view.dart';
+import 'package:fdnt/views/email_tab/main_email_view.dart';
 import 'package:fdnt/views/login_view.dart';
-import 'package:fdnt/views/email_list_view.dart';
+import 'package:fdnt/views/email_tab/emails_list_view.dart';
 import 'package:fdnt/views/news_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'Index 1: Communicator',
       style: optionStyle,
     ),
-    Center(child: EmailListView()),
+    Center(child: MainEmailView()),
     Center(child: FCalendarView()),
     Center(child: SignInForm())
   ];

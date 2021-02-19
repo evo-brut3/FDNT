@@ -13,7 +13,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'email_preview_view.dart';
+import 'email_tab/email_preview_view.dart';
 
 class NewsView extends StatelessWidget {
   String getCoverImage(String html) {
