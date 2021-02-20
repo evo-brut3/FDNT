@@ -76,7 +76,11 @@ class _LoginViewState extends State<LoginView> {
   }
 }
 
+BuildContext indicatorContext;
+
 class SignInForm extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
@@ -119,30 +123,68 @@ class SignInForm extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         ),
         Container(
-          child: ProgressButton(
-            borderRadius: 8.0,
-            defaultWidget: Text("Zaloguj się"),
-            animate: true,
-            progressWidget: CircularProgressIndicator(),
+          child: ElevatedButton(
+            child: Container(
+                width: MediaQuery.of(context).size.width * 0.85,
+                height: 41,
+                alignment: Alignment.center,
+                child: Text("Zaloguj się", textAlign: TextAlign.center,),
+            ),
+
+         //   borderRadius: 8.0,
+           // defaultWidget: Text("Zaloguj się"),
+        //    animate: true,
+          //  progressWidget: CircularProgressIndicator(),
             onPressed: () async {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    indicatorContext = context;
+                    return Center(child: CircularProgressIndicator(),);
+                  });
               await loginViewModel.signIn(
                   email: loginViewModel.emailController.text.trim(),
                   password: loginViewModel.passwordController.text.trim());
+
+              Navigator.of(context, rootNavigator: true).pop();
 
               await Provider.of<DrawerViewModel>(context, listen: false)
                   .fetchTabs();
               await Provider.of<EmailListViewModel>(context, listen: false)
                   .fetchEmails(loginViewModel.email, loginViewModel.password);
+
             },
-            color: Colors.yellow,
+          //  color: Colors.yellow,
           ),
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-        )],
+        ),
+        TextButton(
+            onPressed: () {
+            },
+            child: Text("Nie znasz hasła?", style: TextStyle(fontWeight: FontWeight.bold, fontSize:16))
+        ),],
     );
   }
 }
 
 Future<void> connectToFirebase() async {}
+
+showLoaderDialog(BuildContext context){
+  AlertDialog alert=AlertDialog(
+    content: new Row(
+      children: [
+        CircularProgressIndicator(),
+        Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+      ],),
+  );
+  showDialog(barrierDismissible: false,
+    context:context,
+    builder:(BuildContext context){
+      return alert;
+    },
+  );
+}
 
 Widget createWaitingView() {
   return Scaffold(
