@@ -8,28 +8,34 @@ import 'package:provider/provider.dart';
 
 import 'create_mail_view.dart';
 
-class MainEmailView extends StatelessWidget {
+class MainEmailView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MainEmailViewState();
+}
+
+class _MainEmailViewState extends State<MainEmailView>{
   Future<bool> isLoggedToMailBox() async {
     dynamic temp = await FlutterSession().get("isLoggedToMailbox");
     String t = temp.toString();
     if(temp == null) return false;
     return t == "true";
   }
+
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-          body: FutureBuilder<bool> (future: isLoggedToMailBox(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+    return Scaffold(
+      body: FutureBuilder<bool> (future: isLoggedToMailBox(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData && snapshot.data) {
               return Consumer<EmailListViewModel>(
-              builder: (context, model, child) {
-                return EmailsListView(model);
-              });
+                  builder: (context, model, child) {
+                    return emailsListView(model);
+                  });
             } else {
-            return loginToMailbox(context);
+              return loginToMailbox(context);
             }
           }),
-      /*body: 
+      /*body:
         }
       ),*/
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -45,39 +51,48 @@ class MainEmailView extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget loginToMailbox(BuildContext context) {
-  String password;
-
-  return Column(
-    children: [
-        TextFormField(
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              labelText: "Hasło",
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              contentPadding: EdgeInsets.fromLTRB(16, 0, 16, 0,),
+  Widget loginToMailbox(BuildContext context) {
+    String password;
+    return Column(
+        children: [
+          Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.9,
+              alignment: Alignment.center,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                  labelText: "Hasło",
+                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                ),
+                onChanged: (text) => password = text,
+              ),
+            ),
           ),
-          onChanged: (text) => password = text,
-        ),
-      Container(
-        child: ProgressButton(
-          borderRadius: 8.0,
-          defaultWidget: Text("Zaloguj się do poczty"),
-          animate: true,
-          progressWidget: CircularProgressIndicator(),
-          onPressed: () async {
-            dynamic email = (await FlutterSession().get("email")) as String;
-            debugPrint(password);
-            await Provider.of<EmailListViewModel>(context, listen: false)
-                .fetchEmails(email, password);
-          },
-          color: Colors.yellow,
-        ),
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-      ),
-    ],
-  );
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+            child: FractionallySizedBox(
+              widthFactor: 0.9,
+              child: ProgressButton(
+                borderRadius: 8.0,
+                defaultWidget: Text("Zaloguj się do poczty"),
+                animate: true,
+                progressWidget: CircularProgressIndicator(),
+                onPressed: () async {
+                  dynamic email = (await FlutterSession().get("email")) as String;
+                  debugPrint(password);
+                  await Provider.of<EmailListViewModel>(context, listen: false)
+                      .fetchEmails();
+                  setState(() {});
+                },
+                color: Colors.yellow,
+              ),
+              //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            ),
+          ),
+        ],
+      );
+  }
 }

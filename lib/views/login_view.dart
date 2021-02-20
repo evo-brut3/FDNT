@@ -76,8 +76,6 @@ class _LoginViewState extends State<LoginView> {
   }
 }
 
-BuildContext indicatorContext;
-
 class SignInForm extends StatelessWidget {
 
 
@@ -95,12 +93,7 @@ class SignInForm extends StatelessWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
                 labelText: "E-mail",
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
-                contentPadding: EdgeInsets.fromLTRB(
-                  16,
-                  0,
-                  16,
-                  0,
-                )),
+                contentPadding: EdgeInsets.fromLTRB(16, 0, 16, 0,)),
           ),
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
         ),
@@ -112,12 +105,7 @@ class SignInForm extends StatelessWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(10))),
                 labelText: "Hasło aplikacji",
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
-                contentPadding: EdgeInsets.fromLTRB(
-                  16,
-                  0,
-                  16,
-                  0,
-                )),
+                contentPadding: EdgeInsets.fromLTRB(16, 0, 16, 0,)),
             obscureText: true,
           ),
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -140,19 +128,14 @@ class SignInForm extends StatelessWidget {
                   barrierDismissible: false,
                   context: context,
                   builder: (BuildContext context) {
-                    indicatorContext = context;
                     return Center(child: CircularProgressIndicator(),);
                   });
               await loginViewModel.signIn(
                   email: loginViewModel.emailController.text.trim(),
                   password: loginViewModel.passwordController.text.trim());
-
-              Navigator.of(context, rootNavigator: true).pop();
-
               await Provider.of<DrawerViewModel>(context, listen: false)
                   .fetchTabs();
-              await Provider.of<EmailListViewModel>(context, listen: false)
-                  .fetchEmails(loginViewModel.email, loginViewModel.password);
+              Navigator.of(context, rootNavigator: true).pop();
 
             },
           //  color: Colors.yellow,

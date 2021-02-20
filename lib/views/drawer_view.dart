@@ -4,6 +4,7 @@ import 'package:fdnt/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 class DrawerView extends StatelessWidget {
@@ -30,6 +31,7 @@ class DrawerView extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () {
                         AuthFirebase().signOut();
+                        FlutterSession().set("isLoggedToMailbox", false);
                       },
                         child: Row(
                         children: [

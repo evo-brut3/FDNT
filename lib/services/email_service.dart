@@ -36,6 +36,7 @@ class EmailService {
           isSecure: _isImapServerSecure);
 
       debugPrint("[EmailService] Logging in...");
+
       await client.login(_email, _password);
       await FlutterSession().set("isLoggedToMailbox", true);
 
