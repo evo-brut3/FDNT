@@ -1,12 +1,8 @@
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
-import 'package:fdnt/services/email_service.dart';
-import 'package:fdnt/services/firebase_service.dart';
-import 'package:fdnt/views/email_tab/emails_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:provider/provider.dart';
@@ -136,24 +132,7 @@ class SignInForm extends StatelessWidget {
             color: Colors.yellow,
           ),
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-        ),
-        Container(
-          child: ElevatedButton(
-              onPressed: () {
-                AuthFirebase().signOut();
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
-                child: Text(
-                  "Wyloguj się",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
-                ),
-              )),
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        )
-      ],
+        )],
     );
   }
 }

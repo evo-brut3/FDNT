@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
+import 'package:fdnt/services/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,20 +9,43 @@ import 'package:provider/provider.dart';
 class DrawerView extends StatelessWidget {
   //const DrawerView({Key key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.6,
+      child: Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text("FDNT"),
-            decoration: BoxDecoration(color: Colors.yellow),
+            child: Container(
+              child: Column(
+                children: [
+                  Text("Zalogowano:", textAlign: TextAlign.start,),
+                  Text(FirebaseAuth.instance.currentUser.email, style: TextStyle(color: Colors.blue),),
+                  Container(
+                    height: 80,
+                    alignment: Alignment.bottomRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        AuthFirebase().signOut();
+                      },
+                        child: Row(
+                        children: [
+                          Icon(Icons.logout),
+                          Text("Wyloguj się", style: TextStyle(fontSize: 16),)
+                    ]))
+                  )
+                ],
+              ),
+            ),
+            decoration: BoxDecoration(color: Colors.yellow[200]),
           ),
           createListTileFromTab(context),
         ],
       ),
-    );
+    ));
   }
 
   Widget createListTileFromTab(BuildContext context) {
