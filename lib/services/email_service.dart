@@ -3,6 +3,7 @@ import 'package:enough_mail_flutter/enough_mail_flutter.dart';
 import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class EmailService {
 
@@ -35,8 +36,8 @@ class EmailService {
           isSecure: _isImapServerSecure);
 
       debugPrint("[EmailService] Logging in...");
-      debugPrint(_email + _password);
       await client.login(_email, _password);
+      await FlutterSession().set("isLoggedToMailbox", true);
 
       debugPrint("[EmailService] Listing mailboxes...");
       final mailboxes = await client.listMailboxes();

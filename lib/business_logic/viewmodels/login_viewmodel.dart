@@ -1,6 +1,7 @@
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -15,5 +16,6 @@ class LoginViewModel extends ChangeNotifier {
     );
     this.email = email;
     this.password = password;
+    await FlutterSession().set("email", this.email);
   }
 }
