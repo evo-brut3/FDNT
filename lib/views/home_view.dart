@@ -1,4 +1,5 @@
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
+import 'package:fdnt/views/about_view.dart';
 import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/email_tab/main_email_view.dart';
@@ -28,12 +29,12 @@ class _MyHomePageState extends State<MyHomePage> {
   static List<Widget> _widgetOptions = <Widget>[
     Center(child: NewsView()),
     Text(
-      'Index 1: Communicator',
+      'W budowie...',
       style: optionStyle,
     ),
     Center(child: MainEmailView()),
     Center(child: FCalendarView()),
-    Center(child: SignInForm())
+    Center(child: AboutView())
   ];
 
   void _onItemTapped(int index) {

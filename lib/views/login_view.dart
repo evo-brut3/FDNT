@@ -1,11 +1,15 @@
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
+import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:provider/provider.dart';
+
+import 'about_view.dart';
+import 'news_view.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key}) : super(key: key);
@@ -21,9 +25,9 @@ class _LoginViewState extends State<LoginView> {
 
   void initState() {
     _widgetOptions = <Widget>[
-      Text('Index 1: Home'),
+      NewsView(),
       SignInForm(),
-      Text('Index 3: Info'),
+      AboutView(),
     ];
   }
 
@@ -36,15 +40,16 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("FDNT"),
+      appBar: CustomAppBar(
+        title: "FDNT",
+        onTap: () {},
       ),
       body: Center(
           child: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       )),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.yellow[600],
         unselectedItemColor: Colors.grey[500],
         showUnselectedLabels: true,
         selectedFontSize: 8,
