@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'about_view.dart';
 import 'news_view.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class LoginView extends StatefulWidget {
   LoginView({Key key}) : super(key: key);
 
@@ -40,6 +42,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomAppBar(
         title: "FDNT",
         onTap: () {},
@@ -77,7 +80,6 @@ class _LoginViewState extends State<LoginView> {
 }
 
 class SignInForm extends StatelessWidget {
-
 
   @override
   Widget build(BuildContext context) {
@@ -118,24 +120,20 @@ class SignInForm extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text("Zaloguj się", textAlign: TextAlign.center,),
             ),
-
-         //   borderRadius: 8.0,
-           // defaultWidget: Text("Zaloguj się"),
-        //    animate: true,
-          //  progressWidget: CircularProgressIndicator(),
             onPressed: () async {
               showDialog(
                   barrierDismissible: false,
-                  context: context,
+                  context: _scaffoldKey.currentContext,
                   builder: (BuildContext context) {
                     return Center(child: CircularProgressIndicator(),);
                   });
               await loginViewModel.signIn(
                   email: loginViewModel.emailController.text.trim(),
                   password: loginViewModel.passwordController.text.trim());
+              Navigator.of(_scaffoldKey.currentContext).pop();
               await Provider.of<DrawerViewModel>(context, listen: false)
                   .fetchTabs();
-              Navigator.of(context, rootNavigator: true).pop();
+
 
             },
           //  color: Colors.yellow,
