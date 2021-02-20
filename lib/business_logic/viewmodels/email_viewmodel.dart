@@ -4,14 +4,15 @@ import 'package:fdnt/business_logic/data_types/tab.dart';
 import 'package:fdnt/services/email_service.dart';
 import 'package:fdnt/services/firebase_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class EmailListViewModel extends ChangeNotifier {
   List<EmailViewModel> emails = [];
 
-  Future<void> fetchEmails(String email, String password) async {
+  Future<void> fetchEmails() async {
     EmailService service = EmailService();
-    service.email = email;
-    service.password = password;
+    service.email = await FlutterSession().get("email");
+    service.password = await FlutterSession().get("mailbox_password");
     final results = await service.fetchImapEmails();
     this.emails = results.map((email) => EmailViewModel(email)).toList();
     notifyListeners();

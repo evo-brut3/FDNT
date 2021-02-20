@@ -1,13 +1,10 @@
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
-import 'package:fdnt/views/email_tab/create_mail_view.dart';
 import 'package:fdnt/views/email_tab/email_preview_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
 
-
-Widget EmailsListView(EmailListViewModel model) {
+Widget emailsListView(EmailListViewModel model) {
   return ListView.builder(
       itemCount: model.emails.length,
       itemBuilder: (BuildContext context, int index) {

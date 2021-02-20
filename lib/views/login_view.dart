@@ -131,8 +131,6 @@ class SignInForm extends StatelessWidget {
 
               await Provider.of<DrawerViewModel>(context, listen: false)
                   .fetchTabs();
-              await Provider.of<EmailListViewModel>(context, listen: false)
-                  .fetchEmails(loginViewModel.email, loginViewModel.password);
             },
             color: Colors.yellow,
           ),

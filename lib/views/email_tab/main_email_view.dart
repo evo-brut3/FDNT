@@ -17,19 +17,19 @@ class MainEmailView extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-          body: FutureBuilder<bool> (future: isLoggedToMailBox(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+    return Scaffold(
+      body: FutureBuilder<bool> (future: isLoggedToMailBox(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData && snapshot.data) {
               return Consumer<EmailListViewModel>(
-              builder: (context, model, child) {
-                return EmailsListView(model);
-              });
+                  builder: (context, model, child) {
+                    return emailsListView(model);
+                  });
             } else {
-            return loginToMailbox(context);
+              return loginToMailbox(context);
             }
           }),
-      /*body: 
+      /*body:
         }
       ),*/
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -52,17 +52,19 @@ Widget loginToMailbox(BuildContext context) {
 
   return Column(
     children: [
-        TextFormField(
+      Flexible(
+        child: TextFormField(
           decoration: InputDecoration(
-              border: const OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              labelText: "Hasło",
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              contentPadding: EdgeInsets.fromLTRB(16, 0, 16, 0,),
+            border: const OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
+            labelText: "Hasło",
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+            contentPadding: EdgeInsets.fromLTRB(16, 0, 16, 0,),
           ),
           onChanged: (text) => password = text,
         ),
-      Container(
+      ),
+      Flexible(
         child: ProgressButton(
           borderRadius: 8.0,
           defaultWidget: Text("Zaloguj się do poczty"),
@@ -70,14 +72,15 @@ Widget loginToMailbox(BuildContext context) {
           progressWidget: CircularProgressIndicator(),
           onPressed: () async {
             dynamic email = (await FlutterSession().get("email")) as String;
+            await FlutterSession().set("mailbox_password", password);
             debugPrint(password);
             await Provider.of<EmailListViewModel>(context, listen: false)
-                .fetchEmails(email, password);
+                .fetchEmails();
           },
           color: Colors.yellow,
         ),
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
       ),
     ],
   );
 }
+
