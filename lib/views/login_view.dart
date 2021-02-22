@@ -2,6 +2,7 @@ import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/services/firebase_auth.dart';
@@ -122,19 +123,19 @@ class SignInForm extends StatelessWidget {
             ),
             onPressed: () async {
               showDialog(
+
                   barrierDismissible: false,
                   context: _scaffoldKey.currentContext,
                   builder: (BuildContext context) {
-                    return Center(child: CircularProgressIndicator(),);
+                    return Center(child: CircularProgressIndicator());
                   });
-              await loginViewModel.signIn(
-                  email: loginViewModel.emailController.text.trim(),
-                  password: loginViewModel.passwordController.text.trim());
+              bool ok = await loginViewModel.signIn(context);
               Navigator.of(_scaffoldKey.currentContext).pop();
-              await Provider.of<DrawerViewModel>(context, listen: false)
-                  .fetchTabs();
 
-
+              if(ok) {
+                await Provider.of<DrawerViewModel>(context, listen: false)
+                    .fetchTabs();
+              }
             },
           //  color: Colors.yellow,
           ),
@@ -142,36 +143,44 @@ class SignInForm extends StatelessWidget {
         ),
         TextButton(
             onPressed: () {
+              String email = loginViewModel.emailController.text.trim();
+
+              Widget cancelButton = TextButton(
+                child: Text("Anuluj"),
+                onPressed:  () {
+                  Navigator.of(context).pop();
+                },
+              );
+              Widget continueButton = TextButton(
+                child: Text("Wyślij"),
+                onPressed:  () {
+                  FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: email);
+                  Navigator.of(context).pop();
+                },
+              );
+
+              AlertDialog alert = AlertDialog(
+                title: Text("Zmiana hasła"),
+                content: email != null && email.contains("@") ?
+                  Text("Czy wysłać na adres " + email + " link do zmiany/ustawienia hasła?") :
+                    Text("Najpierw wpisz swój adres email w pole tekstowe."),
+                actions: [
+                  cancelButton,
+                  email != null && email.contains("@") ? continueButton : null
+                ],
+              );
+
+              // show the dialog
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return alert;
+                },
+              );
             },
             child: Text("Nie znasz hasła?", style: TextStyle(fontWeight: FontWeight.bold, fontSize:16))
-        ),],
+        )],
     );
   }
-}
-
-Future<void> connectToFirebase() async {}
-
-showLoaderDialog(BuildContext context){
-  AlertDialog alert=AlertDialog(
-    content: new Row(
-      children: [
-        CircularProgressIndicator(),
-        Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
-      ],),
-  );
-  showDialog(barrierDismissible: false,
-    context:context,
-    builder:(BuildContext context){
-      return alert;
-    },
-  );
-}
-
-Widget createWaitingView() {
-  return Scaffold(
-    body: Container(
-      alignment: Alignment.center,
-      child: CircularProgressIndicator(),
-    ),
-  );
 }

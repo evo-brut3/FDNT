@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AuthFirebase extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -19,18 +18,27 @@ class AuthFirebase extends ChangeNotifier {
     return email.substring(0, email.indexOf("@")).replaceAll(".", "");
   }
 
-  Future<String> signIn({String email, String password}) async {
+  Future<bool> signIn(String email, String password, BuildContext context) async {
     try {
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        debugPrint("[AuthFirebase] No user found for that email");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Niestety, ten użytkownik nie jest jeszcze w naszej bazie"),
+        ));
       } else if (e.code == 'wrong-password') {
-        debugPrint("[AuthFirebase] Wrong password provided for that user");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Niepoprawne hasło"),
+        ));
       } else {
-        debugPrint("[AuthFirebase] Other exception $e");
+        debugPrint(e.code);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Coś poszło nie tak..."),
+        ));
       }
+      return false;
     }
   }
 
