@@ -9,10 +9,10 @@ import 'package:flutter_session/flutter_session.dart';
 class EmailListViewModel extends ChangeNotifier {
   List<EmailViewModel> emails = [];
 
-  Future<void> fetchEmails() async {
+  Future<void> fetchEmails(String mailboxPassword) async {
     EmailService service = EmailService();
     service.email = await FlutterSession().get("email");
-    service.password = await FlutterSession().get("mailbox_password");
+    service.password = mailboxPassword;
     final results = await service.fetchImapEmails();
     this.emails = results.map((email) => EmailViewModel(email)).toList();
     notifyListeners();

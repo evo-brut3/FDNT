@@ -23,7 +23,6 @@ class LoginViewModel extends ChangeNotifier {
       this.password = passwordController.text.trim();
       await FlutterSession().set("email", this.email);
     }
-
     return ok;
   }
 }

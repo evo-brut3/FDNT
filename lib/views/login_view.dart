@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 import 'about_view.dart';
@@ -123,7 +124,6 @@ class SignInForm extends StatelessWidget {
             ),
             onPressed: () async {
               showDialog(
-
                   barrierDismissible: false,
                   context: _scaffoldKey.currentContext,
                   builder: (BuildContext context) {
@@ -144,7 +144,6 @@ class SignInForm extends StatelessWidget {
         TextButton(
             onPressed: () {
               String email = loginViewModel.emailController.text.trim();
-
               Widget cancelButton = TextButton(
                 child: Text("Anuluj"),
                 onPressed:  () {

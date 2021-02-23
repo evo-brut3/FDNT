@@ -52,7 +52,7 @@ class _MainEmailViewState extends State<MainEmailView>{
     );
   }
   Widget loginToMailbox(BuildContext context) {
-    String password;
+    String mailboxPassword;
     return Column(
         children: [
           Center(
@@ -67,7 +67,7 @@ class _MainEmailViewState extends State<MainEmailView>{
                   floatingLabelBehavior: FloatingLabelBehavior.auto,
                   contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 ),
-                onChanged: (text) => password = text,
+                onChanged: (text) => mailboxPassword = text,
               ),
             ),
           ),
@@ -81,10 +81,10 @@ class _MainEmailViewState extends State<MainEmailView>{
                 animate: true,
                 progressWidget: CircularProgressIndicator(),
                 onPressed: () async {
-                  dynamic email = (await FlutterSession().get("email")) as String;
-                  debugPrint(password);
+                  //dynamic email = (await FlutterSession().get("email")) as String;
+                  debugPrint(mailboxPassword);
                   await Provider.of<EmailListViewModel>(context, listen: false)
-                      .fetchEmails();
+                      .fetchEmails(mailboxPassword);
                   setState(() {});
                 },
                 color: Colors.yellow,
