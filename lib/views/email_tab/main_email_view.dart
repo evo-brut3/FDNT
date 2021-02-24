@@ -81,10 +81,10 @@ class _MainEmailViewState extends State<MainEmailView>{
                 animate: true,
                 progressWidget: CircularProgressIndicator(),
                 onPressed: () async {
-                  //dynamic email = (await FlutterSession().get("email")) as String;
+                  dynamic email = (await FlutterSession().get("email")) as String;
                   debugPrint(mailboxPassword);
                   await Provider.of<EmailListViewModel>(context, listen: false)
-                      .fetchEmails(mailboxPassword);
+                      .fetchEmails(mailboxPassword, email);
                   setState(() {});
                 },
                 color: Colors.yellow,
