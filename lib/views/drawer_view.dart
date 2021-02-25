@@ -44,13 +44,13 @@ class DrawerView extends StatelessWidget {
             ),
             decoration: BoxDecoration(color: Colors.yellow[200]),
           ),
-          createListTileFromTab(context),
+     //     createListTileFromTab(context),
         ],
       ),
     ));
   }
 
-  Widget createListTileFromTab(BuildContext context) {
+ /* Widget createListTileFromTab(BuildContext context) {
     return Consumer<DrawerViewModel>(builder: (context, drawer, child) {
       debugPrint("[Size of tabsList: ${drawer.tabs.length}]");
       return ListView.builder(
@@ -62,5 +62,5 @@ class DrawerView extends StatelessWidget {
         shrinkWrap: true,
       );
     });
-  }
+  }*/
 }
