@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // ignore: missing_return
   String selectedName() {
-    switch(_selectedIndex) {
+    switch (_selectedIndex) {
       case 0:
         return "Ogłoszenia";
       case 1:
@@ -60,10 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
       key: _scaffoldKey,
       endDrawer: DrawerView(),
       appBar: CustomAppBar(
-        title: selectedName(),
-        onTap : () {
-          _scaffoldKey.currentState.openDrawer();
-        }),
+          title: selectedName(),
+          onTap: () {
+            _scaffoldKey.currentState.openDrawer();
+          }),
       body: Center(
           child: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
