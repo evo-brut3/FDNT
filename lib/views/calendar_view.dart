@@ -84,16 +84,6 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
               },
             ),
             //Floating action menu item
-            Bubble(
-              title:"Dodaj",
-              iconColor :Colors.white,
-              bubbleColor : Colors.blue,
-              icon:Icons.add,
-              titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
-              onPress: () {
-                _animationController.reverse();
-              },
-            ),
           ],
 
           // animation controller
@@ -136,9 +126,14 @@ class EventShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white60,),
+  //    appBar: AppBar(backgroundColor: Colors.white60,),
       body: ListView(
         children: [
+          Container(
+            margin: globalInsets,
+            alignment: Alignment.centerLeft,
+            child: BackButton()
+          ),
           Container(
             margin: globalInsets,
             child: Row(
