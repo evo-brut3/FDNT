@@ -13,24 +13,25 @@ class MainEmailView extends StatefulWidget {
   State<StatefulWidget> createState() => _MainEmailViewState();
 }
 
-class _MainEmailViewState extends State<MainEmailView>{
+class _MainEmailViewState extends State<MainEmailView> {
   Future<bool> isLoggedToMailBox() async {
     dynamic temp = await FlutterSession().get("isLoggedToMailbox");
     String t = temp.toString();
-    if(temp == null) return false;
+    if (temp == null) return false;
     return t == "true";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<bool> (future: isLoggedToMailBox(),
+      body: FutureBuilder<bool>(
+          future: isLoggedToMailBox(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData && snapshot.data) {
               return Consumer<EmailListViewModel>(
                   builder: (context, model, child) {
-                    return emailsListView(model);
-                  });
+                return emailsListView(model);
+              });
             } else {
               return loginToMailbox(context);
             }
@@ -39,60 +40,60 @@ class _MainEmailViewState extends State<MainEmailView>{
         }
       ),*/
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CreateMailView())
-            );
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateMailView()));
           },
-          child: Icon(Icons.add)
-      ),
+          label: Text("Utwórz"),
+          icon: Icon(
+            Icons.create,
+          )),
     );
   }
+
   Widget loginToMailbox(BuildContext context) {
     String mailboxPassword;
     return Column(
-        children: [
-          Center(
-            child: FractionallySizedBox(
-              widthFactor: 0.9,
-              alignment: Alignment.center,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                  labelText: "Hasło",
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                ),
-                onChanged: (text) => mailboxPassword = text,
+      children: [
+        Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.9,
+            alignment: Alignment.center,
+            child: TextFormField(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                labelText: "Hasło",
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
               ),
+              onChanged: (text) => mailboxPassword = text,
             ),
           ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-            child: FractionallySizedBox(
-              widthFactor: 0.9,
-              child: ProgressButton(
-                borderRadius: 8.0,
-                defaultWidget: Text("Zaloguj się do poczty"),
-                animate: true,
-                progressWidget: CircularProgressIndicator(),
-                onPressed: () async {
-                  dynamic email = (await FlutterSession().get("email")) as String;
-                  debugPrint(mailboxPassword);
-                  await Provider.of<EmailListViewModel>(context, listen: false)
-                      .fetchEmails(mailboxPassword, email);
-                  setState(() {});
-                },
-                color: Colors.yellow,
-              ),
-              //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        ),
+        Container(
+          margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+          child: FractionallySizedBox(
+            widthFactor: 0.9,
+            child: ProgressButton(
+              borderRadius: 8.0,
+              defaultWidget: Text("Zaloguj się do poczty"),
+              animate: true,
+              progressWidget: CircularProgressIndicator(),
+              onPressed: () async {
+                dynamic email = (await FlutterSession().get("email")) as String;
+                debugPrint(mailboxPassword);
+                await Provider.of<EmailListViewModel>(context, listen: false)
+                    .fetchEmails(mailboxPassword, email);
+                setState(() {});
+              },
+              color: Colors.yellow,
             ),
+            //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }
