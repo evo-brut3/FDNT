@@ -5,25 +5,13 @@ import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_session/flutter_session.dart';
 class EmailService {
-
-  String _email;
-  String _password;
-
-  set email(String email) {
-    _email = email;
-  }
-
-  set password(String password) {
-    _password = password;
-  }
-
   final client = ImapClient(isLogEnabled: false);
   String _domain = "dzielo.pl";
   String _imapServerHost = "mail.dzielo.pl";
   int _imapServerPort = 993;
   bool _isImapServerSecure = true;
 
-  Future<List<Email>> fetchImapEmails() async {
+  Future<List<Email>> fetchImapEmails(String email, String password) async {
     List<Email> mails = [];
     try {
       debugPrint("[EmailService] Connecting to the server...");
@@ -31,8 +19,8 @@ class EmailService {
           isSecure: _isImapServerSecure);
 
       debugPrint("[EmailService] Logging in...");
-
-      await client.login(_email, _password);
+      await client.login(email, password);
+      debugPrint("Success");
       await FlutterSession().set("isLoggedToMailbox", true);
 
       debugPrint("[EmailService] Listing mailboxes...");
@@ -58,7 +46,7 @@ class EmailService {
                 isImportant: false));
         debugPrint(msg.decodeTextPlainPart());
       });
-      await client.logout();
+      //await client.logout();
     } on ImapException catch (e) {
       debugPrint("[EmailService] Imap failed with $e");
     }

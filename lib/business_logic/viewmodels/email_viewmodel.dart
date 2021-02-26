@@ -9,11 +9,9 @@ import 'package:flutter_session/flutter_session.dart';
 class EmailListViewModel extends ChangeNotifier {
   List<EmailViewModel> emails = [];
 
-  Future<void> fetchEmails(String mailboxPassword, String email) async {
+  Future<void> fetchEmails(String email, String mailboxPassword) async {
     EmailService service = EmailService();
-    service.email = email;
-    service.password = mailboxPassword;
-    final results = await service.fetchImapEmails();
+    final results = await service.fetchImapEmails(email, mailboxPassword);
     this.emails = results.map((email) => EmailViewModel(email)).toList();
     notifyListeners();
   }
@@ -23,13 +21,11 @@ class EmailViewModel {
   final Email email;
 
   EmailViewModel(this.email);
-
   String get title => this.email.title;
   String get content => this.email.content;
-  String get sender => this.email.sender;
   String get sendTime => this.email.sendTime;
   String get dayTime => this.email.dayTime();
-  String get senderName => this.email.getSenderName();
+  String get senderName => this.email.senderName;
   bool get isImportant => this.email.isImportant;
   bool get isRead => this.email.isRead;
 }

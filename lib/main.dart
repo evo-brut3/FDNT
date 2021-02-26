@@ -11,6 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/login_view.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -33,6 +34,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    FlutterSession().set("isLoggedToMailbox", false);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

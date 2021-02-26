@@ -24,7 +24,7 @@ class _MainEmailViewState extends State<MainEmailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<bool>(
+        body: FutureBuilder<bool>(
           future: isLoggedToMailBox(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (snapshot.hasData && snapshot.data) {
@@ -36,9 +36,6 @@ class _MainEmailViewState extends State<MainEmailView> {
               return loginToMailbox(context);
             }
           }),
-      /*body:
-        }
-      ),*/
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
@@ -85,7 +82,7 @@ class _MainEmailViewState extends State<MainEmailView> {
                 dynamic email = (await FlutterSession().get("email")) as String;
                 debugPrint(mailboxPassword);
                 await Provider.of<EmailListViewModel>(context, listen: false)
-                    .fetchEmails(mailboxPassword, email);
+                    .fetchEmails(email, mailboxPassword);
                 setState(() {});
               },
               color: Colors.yellow,

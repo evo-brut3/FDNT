@@ -14,20 +14,19 @@ Widget emailsListView(EmailListViewModel model) {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        EmailPreviewView(model.emails[index].content)))
+                        EmailPreviewView(
+                          title: model.emails[index].title,
+                          senderName: model.emails[index].senderName,
+                          content: model.emails[index].content,
+                          dayTime: model.emails[index].dayTime
+                        )
+                )
+            )
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Image.asset(
-                  "assets/images/person_icon.png",
-                  width: 50,
-                  height: MediaQuery.of(context).size.height * 0.11,
-                ),
-              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.11,
                 width: MediaQuery.of(context).size.width * 0.4,

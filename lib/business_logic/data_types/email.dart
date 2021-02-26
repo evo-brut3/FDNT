@@ -1,13 +1,9 @@
 /* @TODO generate mail icon */
-
-import 'package:enough_mail/enough_mail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class Email {
   String title;
   String sender;
-  //Image senderIcon;
   String sendTime;
   String content;
   bool isRead;
@@ -24,7 +20,7 @@ class Email {
   String dayTime() {
     DateTime time = DateTime.parse(this.sendTime);
     if(_isDateTodayDate()) return DateFormat('kk:mm').format(time);
-    else return DateFormat('yyyy-mm-dd').format(time);
+    else return DateFormat('dd.mm.yyyy').format(time);
   }
   
   bool _isDateTodayDate() {
@@ -33,7 +29,7 @@ class Email {
     return (now == today);
   }
 
-  String getSenderName() {
+  String get senderName {
     return sender.substring(1,sender.indexOf("\"",2));
   }
 }
