@@ -34,11 +34,10 @@ class _MainEmailViewState extends State<MainEmailView> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Provider.of<EmailListViewModel>(context, listen: false)
-                .logoutButtonClicked();
-            //Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMailView()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateMailView()));
           },
-          label: Text("Wyloguj się"), //Text("Utwórz"),
+          label: Text("Utwórz"),
           icon: Icon(
             Icons.create,
           )),
