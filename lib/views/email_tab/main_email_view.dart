@@ -14,43 +14,54 @@ class MainEmailView extends StatefulWidget {
 }
 
 class _MainEmailViewState extends State<MainEmailView> {
-  Future<bool> isLoggedToMailBox() async {
-    dynamic temp = await FlutterSession().get("isLoggedToMailbox");
-    String t = temp.toString();
-    if (temp == null) return false;
-    return t == "true";
-  }
-
   @override
   Widget build(BuildContext context) {
+    EmailListViewModel emailListViewModel =
+        Provider.of<EmailListViewModel>(context, listen: false);
+
     return Scaffold(
-        body: FutureBuilder<bool>(
-          future: isLoggedToMailBox(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (snapshot.hasData && snapshot.data) {
-              return Consumer<EmailListViewModel>(
-                  builder: (context, model, child) {
-                return emailsListView(model);
-              });
-            } else {
-              return loginToMailbox(context);
-            }
-          }),
+      body: RefreshIndicator(
+          onRefresh: emailListViewModel.refreshIndicatorPulled,
+          child: Consumer<EmailListViewModel>(
+              builder: (context, model, _) => model.isLoggedToMailBox
+                  ? emailsListView(model)
+                  : loginToMailbox(context))),
+
+      // emailListViewModel.isLoggedToMailBox
+      //     ? emailsListView(emailListViewModel)
+      //     : loginToMailbox(context)),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateMailView()));
+            Provider.of<EmailListViewModel>(context, listen: false)
+                .logoutButtonClicked();
+            //Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMailView()));
           },
-          label: Text("Utwórz"),
+          label: Text("Wyloguj się"), //Text("Utwórz"),
           icon: Icon(
             Icons.create,
           )),
     );
   }
 
+  /*
+  FutureBuilder<bool>(
+            future: Provider.of<EmailListViewModel>(context, listen: false)
+                .isLoggedToMailBox(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData && snapshot.data) {
+                return Consumer<EmailListViewModel>(
+                    builder: (context, model, child) {
+                  return emailsListView(model);
+                });
+              } else {
+                return loginToMailbox(context);
+              }
+            }),
+  */
+
   Widget loginToMailbox(BuildContext context) {
-    String mailboxPassword;
     return Column(
       children: [
         Center(
@@ -65,7 +76,10 @@ class _MainEmailViewState extends State<MainEmailView> {
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
               ),
-              onChanged: (text) => mailboxPassword = text,
+              obscureText: true,
+              controller:
+                  Provider.of<EmailListViewModel>(context, listen: false)
+                      .emailPasswordTextController,
             ),
           ),
         ),
@@ -78,13 +92,9 @@ class _MainEmailViewState extends State<MainEmailView> {
               defaultWidget: Text("Zaloguj się do poczty"),
               animate: true,
               progressWidget: CircularProgressIndicator(),
-              onPressed: () async {
-                dynamic email = (await FlutterSession().get("email")) as String;
-                debugPrint(mailboxPassword);
-                await Provider.of<EmailListViewModel>(context, listen: false)
-                    .fetchEmails(email, mailboxPassword);
-                setState(() {});
-              },
+              onPressed: () =>
+                  Provider.of<EmailListViewModel>(context, listen: false)
+                      .loginButtonClicked(),
               color: Colors.yellow,
             ),
             //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
