@@ -29,7 +29,10 @@ class Email {
     return (now == today);
   }
 
+  //
   String get senderName {
-    return sender.substring(1,sender.indexOf("\"",2));
+    if(sender.startsWith("\""))
+      return sender.substring(1, sender.indexOf("\"", 2));
+    return sender;
   }
 }

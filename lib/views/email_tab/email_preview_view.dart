@@ -1,4 +1,5 @@
 
+import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -18,6 +19,9 @@ class EmailPreviewView extends StatelessWidget {
     debugPrint(content);
 
     return Scaffold(
+      appBar: CustomAppBar(title: '', onTap: () => {
+       Navigator.pop(context)
+      }),
       body: Container(
         child: SingleChildScrollView(
             child: Padding(
