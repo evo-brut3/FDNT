@@ -19,9 +19,7 @@ class EmailPreviewView extends StatelessWidget {
     debugPrint(content);
 
     return Scaffold(
-      appBar: CustomAppBar(title: '', onTap: () => {
-       Navigator.pop(context)
-      }),
+      appBar: CustomAppBar(title: 'Poczta', isReturnIconEnabled: true),
       body: Container(
         child: SingleChildScrollView(
             child: Padding(
