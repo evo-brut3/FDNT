@@ -39,49 +39,64 @@ class EmailPreviewView extends StatelessWidget {
   }
 
   Widget createMessageView() {
-    return Html(
-      data: content,
-      shrinkWrap: true,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Html(
+        data: content,
+        shrinkWrap: true,
+      ),
     );
   }
 
   Widget createInfoView(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
+        //width: MediaQuery.of(context).size.width * 0.9,
         child: Column(
           children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
                         title,
                         maxLines: 3,
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.w400, fontSize: 23),
                     ),
                   ),
-                  GestureDetector(
-                    child: Image(
-                        image: AssetImage('assets/images/reply.png'),
-                    ),
-                    onTap: () => {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMailView()))
-                    },
-                  )
+
                 ],
               ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                      Text(senderName),
-                      Text(dayTime),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                    child: Text(senderName, style: TextStyle(fontSize: 17,
+                        fontWeight: FontWeight.bold)),
+                  ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 32, 0),
+                      child: Text(dayTime, style: TextStyle(fontSize: 14),
+                        textAlign: TextAlign.left),
+                    ),
+                    GestureDetector(
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: Container(
+                            child: Icon(Icons.reply)
+                        ),
+                      ),
+                      onTap: () => {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMailView()))
+                      },
+                  )
                 ],
               ),
             ),
