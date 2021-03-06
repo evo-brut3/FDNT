@@ -16,57 +16,40 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         this.onTap()
       },
       child: SafeArea(
-        child:
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.91,
+              height: 40,
+              child: Stack(
                 children: [
-                  Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                  if(isReturnIconEnabled) Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                          icon: Icon(Icons.reply),
+                          onPressed: () => Navigator.pop(context)
+                      )
+                  ),
+                  Center(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 20,
+                        // color: Colors.black54,
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.91,
-                          height: 40,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if(isReturnIconEnabled) returnIcon(context),
-                              Center(
-                                  child: Text(
-                                    title,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      // color: Colors.black54,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                  ),
                 ],
               ),
             ),
+          ),
+        ),
       ),
     );
   }
-}
-
-Widget returnIcon(BuildContext context) {
-  return GestureDetector(
-    child: Icon(
-        Icons.reply
-    ),
-    onTap: () {
-      Navigator.pop(context);
-    },
-  );
 }
