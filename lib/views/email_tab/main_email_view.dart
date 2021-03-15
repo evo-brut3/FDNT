@@ -18,47 +18,22 @@ class _MainEmailViewState extends State<MainEmailView> {
   Widget build(BuildContext context) {
     EmailListViewModel emailListViewModel =
         Provider.of<EmailListViewModel>(context, listen: false);
-
     return Scaffold(
       body: RefreshIndicator(
           onRefresh: emailListViewModel.refreshIndicatorPulled,
           child: Consumer<EmailListViewModel>(
-              builder: (context, model, _) => model.isLoggedToMailBox
-                  ? emailsListView(model)
-                  : loginToMailbox(context))),
-
-      // emailListViewModel.isLoggedToMailBox
-      //     ? emailsListView(emailListViewModel)
-      //     : loginToMailbox(context)),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateMailView()));
-          },
-          label: Text("Utwórz"),
-          icon: Icon(
-            Icons.create,
-          )),
+              builder: (context, model, _) {
+                if(model.isLoggedToMailBox)  {
+                  return emailsListView(model, context);
+                }
+                else return loginToMailbox(context);
+              }
+          )
+      ),
     );
   }
 
-  /*
-  FutureBuilder<bool>(
-            future: Provider.of<EmailListViewModel>(context, listen: false)
-                .isLoggedToMailBox(),
-            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasData && snapshot.data) {
-                return Consumer<EmailListViewModel>(
-                    builder: (context, model, child) {
-                  return emailsListView(model);
-                });
-              } else {
-                return loginToMailbox(context);
-              }
-            }),
-  */
+
 
   Widget loginToMailbox(BuildContext context) {
     return Column(
