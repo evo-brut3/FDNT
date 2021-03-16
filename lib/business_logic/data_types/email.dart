@@ -6,7 +6,7 @@ class Email {
   String sender;
   String sendTime;
   String content;
-  bool isRead;
+  bool isRead = false;
   bool isImportant;
 
   Email(
@@ -14,7 +14,6 @@ class Email {
       this.sender,
       this.sendTime,
       this.content,
-      this.isRead,
       this.isImportant});
 
   String dayTime() {

@@ -74,20 +74,27 @@ class EmailPreviewView extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                    child: Text(senderName, style: TextStyle(fontSize: 17,
-                        fontWeight: FontWeight.bold)),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                      child: Text(senderName, style: TextStyle(fontSize: 17,
+                          fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 4,),
+                    ),
                   ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 32, 0),
-                      child: Text(dayTime, style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.left),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 32, 0),
+                        child: Text(dayTime, style: TextStyle(fontSize: 14),
+                          textAlign: TextAlign.left),
+                      ),
                     ),
                     GestureDetector(
                       child: Transform.scale(
                         scale: 1.2,
                         child: Container(
+
                             child: Icon(Icons.reply)
                         ),
                       ),

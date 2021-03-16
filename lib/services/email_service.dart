@@ -81,7 +81,6 @@ class EmailService {
                 sendTime: msg.decodeDate().toString(),
                 // TODO: Download message only when user wants to display it
                 content: msg.transformToHtml(),
-                isRead: false,
                 isImportant: false));
         debugPrint(msg.decodeTextPlainPart());
       });
