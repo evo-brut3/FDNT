@@ -1,5 +1,4 @@
 import 'package:enough_mail/enough_mail.dart';
-import 'package:enough_mail_flutter/enough_mail_flutter.dart';
 import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:flutter/cupertino.dart';

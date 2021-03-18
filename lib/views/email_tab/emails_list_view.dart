@@ -16,7 +16,6 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () => {
-              model.emails[index].isEmailRead = true,
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -45,9 +44,7 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
                           model.emails[index].senderName,
                           style: TextStyle(
                             fontSize: 17,
-                            fontWeight: (model.emails[index].isRead)
-                                ? FontWeight.normal
-                                : FontWeight.bold
+                            fontWeight: FontWeight.bold
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -56,9 +53,7 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
                           child: Text(model.emails[index].title,
                             style: TextStyle(
                                 color: Color(0xff878787),
-                                fontWeight: (model.emails[index].isRead)
-                                    ? FontWeight.normal
-                                    : FontWeight.bold
+                                fontWeight: FontWeight.normal
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,

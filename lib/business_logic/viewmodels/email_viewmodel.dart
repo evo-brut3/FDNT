@@ -56,6 +56,4 @@ class EmailViewModel {
   String get dayTime => this.email.dayTime();
   String get senderName => this.email.senderName;
   bool get isImportant => this.email.isImportant;
-  bool get isRead => this.email.isRead;
-  set isEmailRead(bool val) => this.email.isRead = val;
 }
