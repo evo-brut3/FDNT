@@ -10,19 +10,37 @@ class EmailListViewModel extends ChangeNotifier {
   final emailPasswordTextController = TextEditingController();
   final _service = EmailService();
 
+  int emailsLeft;
+
+
   bool get isLoggedToMailBox => _service.isConnected();
 
   Future<void> loginButtonClicked() async {
     dynamic email = (await FlutterSession().get("email")) as String;
     var password = emailPasswordTextController.text.trim().toString();
 
-    await _service.connect(email, password);
-    await fetchEmails();
-    notifyListeners();
+    startLogging(email, password);
 
     final storage = FlutterSecureStorage();
     storage.write(key: CacheKey.mailboxLogin, value: email);
     storage.write(key: CacheKey.mailboxPassword, value: password);
+  }
+
+  Future<void> startLogging(String email, String password) async {
+    await _service.connect(email, password);
+    await loadEmails();
+  }
+
+  Future<void> loadEmails() async {
+    int emailsCount = await _service.emailsCount();
+    emailsLeft = emailsCount;
+
+    this.emails.clear();
+
+    for (int i = emailsCount; i > emailsCount-8; i--) {
+      await fetchEmails(i);
+      emailsLeft--;
+    }
   }
 
   Future<void> logoutButtonClicked() async {
@@ -31,13 +49,22 @@ class EmailListViewModel extends ChangeNotifier {
   }
 
   Future<void> refreshIndicatorPulled() async {
-    await fetchEmails();
+    loadEmails();
+    notifyListeners();
   }
 
-  Future<void> fetchEmails() async {
-    final results = await _service.fetchEmails();
-    this.emails = results.map((email) => EmailViewModel(email)).toList();
-    notifyListeners();
+  Future<void> scrolledToBottom() async {
+    fetchEmails(emailsLeft);
+    emailsLeft--;
+  }
+
+  Future<void> fetchEmails(int index) async {
+    if (index >= 1) {
+      final results = await _service.fetchEmails(index);
+      this.emails.addAll(
+          results.map((email) => EmailViewModel(email)).toList());
+        notifyListeners();
+    }
   }
 
   Future<void> cacheCredentials({String login, String password}) async {
@@ -52,7 +79,7 @@ class EmailViewModel {
   EmailViewModel(this.email);
   String get title => this.email.title;
   String get content => this.email.content;
-  String get sendTime => this.email.sendTime;
+  String get sendTime => email.dayTime();
   String get dayTime => this.email.dayTime();
   String get senderName => this.email.senderName;
   bool get isImportant => this.email.isImportant;

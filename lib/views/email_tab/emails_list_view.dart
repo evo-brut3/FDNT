@@ -4,6 +4,7 @@ import 'package:fdnt/views/email_tab/email_preview_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
 import 'create_mail_view.dart';
 
@@ -11,7 +12,21 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
   return Scaffold(
     floatingActionButton: writeMailBtn(baseContext),
     floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    body: ListView.builder(
+    body: NotificationListener<ScrollEndNotification>(
+      onNotification: (scrollEnd) {
+        var metrics = scrollEnd.metrics;
+          if (metrics.atEdge) {
+            if (metrics.pixels != 0) {
+              Provider.of<EmailListViewModel>(baseContext, listen: false)
+                  .scrolledToBottom();
+            } else {
+              Provider.of<EmailListViewModel>(baseContext, listen: false)
+                  .loadEmails();
+            }
+          }
+        return true;
+        },
+      child: ListView.builder(
         itemCount: model.emails.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
@@ -66,7 +81,7 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.1, 0, 0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [Text(model.emails[index].dayTime)],
+                    children: [Text(model.emails[index].sendTime)],
                   ),
                 )
               ],
@@ -74,7 +89,7 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
           );
         }),
 
-  );
+  ));
 
 }
 Widget writeMailBtn(BuildContext context) {

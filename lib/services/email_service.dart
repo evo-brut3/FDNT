@@ -5,35 +5,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_session/flutter_session.dart';
 
 class EmailService {
-  // String _email;
-  // String _password;
+  ImapClient _client;
 
-  // set email(String email) {
-  //   _email = email;
-  // }
-
-  // set password(String password) {
-  //   _password = password;
-  // }
-
-  MailAccount _account;
-  MailClient _client;
-
-  // String _domain = "dzielo.pl";
-  // String _imapServerHost = "mail.dzielo.pl";
-  // int _imapServerPort = 993;
-  // bool _isImapServerSecure = true;
+   String _imapServerHost = "mail.dzielo.pl";
+   int _imapServerPort = 993;
+   bool _isImapServerSecure = true;
 
   Future<void> connect(String email, String password) async {
-    debugPrint("[EmailService] Discovering settings...");
-    final config = await Discover.discover(email);
-    _account =
-        MailAccount.fromDiscoveredSettings("Account", email, password, config);
-    _client = MailClient(_account);
-
     try {
+      _client = ImapClient(isLogEnabled: false);
+
+      await _client.connectToServer(_imapServerHost, _imapServerPort,
+            isSecure: _isImapServerSecure);
+      await _client.login(email, password);
+
       debugPrint("[EmailService] Logging in...");
-      await _client.connect();
       await FlutterSession().set("isLoggedToMailbox", true);
     } on MailException catch (e) {
       await FlutterSession().set("isLoggedToMailbox", false);
@@ -50,34 +36,29 @@ class EmailService {
   }
 
   bool isConnected() {
-    return _client?.isConnected ?? false;
+    return _client?.isLoggedIn ?? false;
   }
 
-  Future<List<Email>> fetchEmails() async {
+  Future<int> emailsCount() async {
+    final box = await _client.selectInbox();
+    return box.messagesExists;
+  }
+
+  Future<List<Email>> fetchEmails(int index) async {
+    emailsCount();
     List<Email> mails = [];
     try {
-      // debugPrint("[EmailService] Connecting to the server...");
-      // await _client.connect();
-
-      // await FlutterSession().set("isLoggedToMailbox", true);
-
-      debugPrint("[EmailService] Listing mailboxes...");
-      final mailboxes = await _client.listMailboxes();
-      mailboxes.forEach((element) {
-        debugPrint("[EmailService] Mailbox found - $element");
-      });
       debugPrint("[EmailService] Selecting the inbox...");
       await _client.selectInbox();
       debugPrint("[EmailService] Fetching messages...");
-      final fetchResult = await _client.fetchMessages(
-          count: 3, fetchPreference: FetchPreference.full);
-      fetchResult.forEach((msg) {
+      final fetchResult = await _client.fetchMessage(index, "BODY[]");
+      fetchResult.messages.forEach((msg) {
         mails.insert(
             0,
             Email(
                 title: msg.decodeSubject(),
                 sender: msg.decodeSender().join(),
-                sendTime: msg.decodeDate().toString(),
+                sendTime: msg.decodeDate(),
                 // TODO: Download message only when user wants to display it
                 content: msg.transformToHtml(),
                 isImportant: false));
@@ -86,6 +67,8 @@ class EmailService {
     } on MailException catch (e) {
       debugPrint("[EmailService] Imap failed with $e");
     }
+
+
     return mails;
   }
 

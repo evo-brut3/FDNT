@@ -1,8 +1,10 @@
+import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/views/email_tab/emails_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,7 @@ class _MainEmailViewState extends State<MainEmailView> {
     EmailListViewModel emailListViewModel =
         Provider.of<EmailListViewModel>(context, listen: false);
     return Scaffold(
+      key: _scaffoldKey,
       body: RefreshIndicator(
           onRefresh: emailListViewModel.refreshIndicatorPulled,
           child: Consumer<EmailListViewModel>(
@@ -26,13 +29,18 @@ class _MainEmailViewState extends State<MainEmailView> {
                 if(model.isLoggedToMailBox)  {
                   return emailsListView(model, context);
                 }
-                else return loginToMailbox(context);
+                else {
+                  //final store = FlutterSecureStorage();
+                  //String password = await store.read(key: CacheKey.mailboxPassword);
+                  return loginToMailbox(context);
+                }
               }
           )
       ),
     );
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
   Widget loginToMailbox(BuildContext context) {
@@ -66,9 +74,17 @@ class _MainEmailViewState extends State<MainEmailView> {
               defaultWidget: Text("Zaloguj się do poczty"),
               animate: true,
               progressWidget: CircularProgressIndicator(),
-              onPressed: () =>
-                  Provider.of<EmailListViewModel>(context, listen: false)
-                      .loginButtonClicked(),
+              onPressed: () async {
+                showDialog(
+                  barrierDismissible: false,
+                  context: _scaffoldKey.currentContext,
+                  builder: (BuildContext context) {
+                    return Center(child: CircularProgressIndicator());
+                  });
+                await Provider.of<EmailListViewModel>(context, listen: false)
+                    .loginButtonClicked();
+                Navigator.of(_scaffoldKey.currentContext).pop();
+              },
               color: Colors.yellow,
             ),
             //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),

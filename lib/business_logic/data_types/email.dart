@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class Email {
   String title;
   String sender;
-  String sendTime;
+  DateTime sendTime;
   String content;
   bool isRead = false;
   bool isImportant;
@@ -17,9 +17,9 @@ class Email {
       this.isImportant});
 
   String dayTime() {
-    DateTime time = DateTime.parse(this.sendTime);
+    DateTime time = this.sendTime;
     if(_isDateTodayDate()) return DateFormat('kk:mm').format(time);
-    else return DateFormat('dd.mm.yyyy').format(time);
+    else return DateFormat('dd.MM.yyyy').format(time);
   }
   
   bool _isDateTodayDate() {
