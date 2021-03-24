@@ -22,9 +22,7 @@ class _MainEmailViewState extends State<MainEmailView> {
         Provider.of<EmailListViewModel>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
-      body: RefreshIndicator(
-          onRefresh: emailListViewModel.refreshIndicatorPulled,
-          child: Consumer<EmailListViewModel>(
+      body: Consumer<EmailListViewModel>(
               builder: (context, model, _) {
                 if(model.isLoggedToMailBox)  {
                   return emailsListView(model, context);
@@ -36,8 +34,7 @@ class _MainEmailViewState extends State<MainEmailView> {
                 }
               }
           )
-      ),
-    );
+      );
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

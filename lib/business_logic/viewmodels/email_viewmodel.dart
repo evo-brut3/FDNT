@@ -19,7 +19,7 @@ class EmailListViewModel extends ChangeNotifier {
     dynamic email = (await FlutterSession().get("email")) as String;
     var password = emailPasswordTextController.text.trim().toString();
 
-    startLogging(email, password);
+    await startLogging(email, password);
 
     final storage = FlutterSecureStorage();
     storage.write(key: CacheKey.mailboxLogin, value: email);
@@ -28,7 +28,7 @@ class EmailListViewModel extends ChangeNotifier {
 
   Future<void> startLogging(String email, String password) async {
     await _service.connect(email, password);
-    await loadEmails();
+    loadEmails();
   }
 
   Future<void> loadEmails() async {

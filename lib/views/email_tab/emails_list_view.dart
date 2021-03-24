@@ -19,9 +19,6 @@ Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
             if (metrics.pixels != 0) {
               Provider.of<EmailListViewModel>(baseContext, listen: false)
                   .scrolledToBottom();
-            } else {
-              Provider.of<EmailListViewModel>(baseContext, listen: false)
-                  .loadEmails();
             }
           }
         return true;
