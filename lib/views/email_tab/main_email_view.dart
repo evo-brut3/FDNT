@@ -1,6 +1,6 @@
 import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
-import 'package:fdnt/views/email_tab/emails_list_view.dart';
+import 'package:fdnt/views/email_tab/mail_list/emails_list_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
@@ -8,7 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
-import 'create_mail_view.dart';
+import 'mail_list/mail_compose/create_mail_view.dart';
 
 class MainEmailView extends StatefulWidget {
   @override

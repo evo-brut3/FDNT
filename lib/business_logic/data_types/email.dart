@@ -16,6 +16,17 @@ class Email {
       this.content,
       this.isImportant});
 
+
+  String get getTitle {
+    return title;
+  }
+
+  String get getSender {
+    if(sender.startsWith("\""))
+      return sender.substring(1, sender.indexOf("\"", 2));
+    return sender;
+  }
+
   String dayTime() {
     DateTime time = this.sendTime;
     if(_isDateTodayDate()) return DateFormat('kk:mm').format(time);
@@ -28,10 +39,4 @@ class Email {
     return (now == today);
   }
 
-  //
-  String get senderName {
-    if(sender.startsWith("\""))
-      return sender.substring(1, sender.indexOf("\"", 2));
-    return sender;
-  }
 }

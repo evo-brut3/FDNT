@@ -1,10 +1,11 @@
 
+import 'package:fdnt/views/email_tab/mail_list/mail_compose/email_reply.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import 'create_mail_view.dart';
+import 'mail_compose/create_mail_view.dart';
 
 class EmailPreviewView extends StatelessWidget {
   final String content;
@@ -99,7 +100,10 @@ class EmailPreviewView extends StatelessWidget {
                         ),
                       ),
                       onTap: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateMailView()))
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                            EmailReply(senderName: senderName, emailToReply: createMessageView())
+                        ))
+
                       },
                   )
                 ],

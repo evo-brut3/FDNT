@@ -67,8 +67,6 @@ class EmailService {
     } on MailException catch (e) {
       debugPrint("[EmailService] Imap failed with $e");
     }
-
-
     return mails;
   }
 

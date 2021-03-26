@@ -1,12 +1,12 @@
 
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
-import 'package:fdnt/views/email_tab/email_preview_view.dart';
+import 'package:fdnt/views/email_tab/mail_list/email_preview_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-import 'create_mail_view.dart';
+import 'mail_compose/create_mail_view.dart';
 
 Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
   return Scaffold(
