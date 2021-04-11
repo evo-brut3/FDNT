@@ -22,8 +22,11 @@ class Email {
   }
 
   String get getSender {
-    if(sender.startsWith("\""))
-      return sender.substring(1, sender.indexOf("\"", 2));
+    if(sender.startsWith("\"")) {
+      int end = sender.indexOf("\"", 2);
+      if (end == -1) return sender;
+      return sender.substring(1, end);
+    }
     return sender;
   }
 
