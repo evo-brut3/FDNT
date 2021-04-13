@@ -1,6 +1,13 @@
+import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
+
+final toController = TextEditingController();
+final subjectController = TextEditingController();
+final contentController = TextEditingController();
 
 class CreateMailView extends StatelessWidget {
   static const mainOpacity = 0.7;
@@ -24,7 +31,7 @@ class CreateMailView extends StatelessWidget {
       ),
       body: createMailForm(),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {sendEmail(context);},
         label: Text("Wyślij"),
         icon: Icon(Icons.send),
       ),
@@ -49,6 +56,7 @@ class CreateMailView extends StatelessWidget {
       padding: defaultPadding,
       child: Container(
         child: TextFormField(
+          controller: toController,
           decoration: InputDecoration(
             isDense: true,
             prefixIcon: Text("Do:",
@@ -69,6 +77,7 @@ class CreateMailView extends StatelessWidget {
       child: Padding(
         padding: defaultPadding,
         child: TextFormField(
+          controller: subjectController,
           decoration: InputDecoration(
             isDense: true,
             hintText: "Temat:",
@@ -89,6 +98,7 @@ class CreateMailView extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.fromLTRB(0, 16, 0, 0),
         child: TextFormField(
+          controller: contentController,
           maxLines: null,
           decoration:
               InputDecoration.collapsed(hintText: "Tutaj wpisz treść maila"),
@@ -97,4 +107,30 @@ class CreateMailView extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> sendEmail(BuildContext context) async {
+  final storage = new FlutterSecureStorage();
+  String username = await storage.read(key: CacheKey.mailboxLogin);
+  String password = await storage.read(key: CacheKey.mailboxPassword);
+
+  final smtpServer = SmtpServer("mail.dzielo.pl",
+      username: username, password: password);
+
+  // Create our email message.
+  final message = Message()
+    ..from = Address(username)
+    ..recipients.add(toController.text.trim().toString())
+    ..subject = subjectController.text.trim().toString()
+    ..text = contentController.text.trim().toString();
+
+  try {
+    final sendReport = await send(message, smtpServer);
+    print('Message sent: ' + sendReport.toString());
+  } on MailerException catch (e) {
+    print('Message not sent. \n'+ e.toString());
+  }
+
+  // Close sending view.
+  Navigator.pop(context, true);
 }
