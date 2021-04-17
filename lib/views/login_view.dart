@@ -1,6 +1,7 @@
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
+import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,6 +45,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawerView(context: context),
       key: _scaffoldKey,
       appBar: CustomAppBar(
         title: "FDNT",

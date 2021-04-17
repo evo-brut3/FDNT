@@ -1,6 +1,8 @@
 import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
+import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/email_tab/mail_list/emails_list_view.dart';
+import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
@@ -41,53 +43,59 @@ class _MainEmailViewState extends State<MainEmailView> {
 
 
   Widget loginToMailbox(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: FractionallySizedBox(
-            widthFactor: 0.9,
-            alignment: Alignment.center,
-            child: TextFormField(
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(10))),
-                labelText: "Hasło",
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: "O Fundacji",
+      ),
+      drawer: drawerView(),
+      body: Column(
+        children: [
+          Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.9,
+              alignment: Alignment.center,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(10))),
+                  labelText: "Hasło",
+                  floatingLabelBehavior: FloatingLabelBehavior.auto,
+                  contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                ),
+                obscureText: true,
+                controller:
+                    Provider.of<EmailListViewModel>(context, listen: false)
+                        .emailPasswordTextController,
               ),
-              obscureText: true,
-              controller:
-                  Provider.of<EmailListViewModel>(context, listen: false)
-                      .emailPasswordTextController,
             ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-          child: FractionallySizedBox(
-            widthFactor: 0.9,
-            child: ProgressButton(
-              borderRadius: 8.0,
-              defaultWidget: Text("Zaloguj się do poczty"),
-              animate: true,
-              progressWidget: CircularProgressIndicator(),
-              onPressed: () async {
-                showDialog(
-                  barrierDismissible: false,
-                  context: _scaffoldKey.currentContext,
-                  builder: (BuildContext context) {
-                    return Center(child: CircularProgressIndicator());
-                  });
-                await Provider.of<EmailListViewModel>(context, listen: false)
-                    .loginButtonClicked();
-                Navigator.of(_scaffoldKey.currentContext).pop();
-              },
-              color: Colors.yellow,
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+            child: FractionallySizedBox(
+              widthFactor: 0.9,
+              child: ProgressButton(
+                borderRadius: 8.0,
+                defaultWidget: Text("Zaloguj się do poczty"),
+                animate: true,
+                progressWidget: CircularProgressIndicator(),
+                onPressed: () async {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: _scaffoldKey.currentContext,
+                    builder: (BuildContext context) {
+                      return Center(child: CircularProgressIndicator());
+                    });
+                  await Provider.of<EmailListViewModel>(context, listen: false)
+                      .loginButtonClicked();
+                  Navigator.of(_scaffoldKey.currentContext).pop();
+                },
+                color: Colors.yellow,
+              ),
+              //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             ),
-            //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -58,12 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: DrawerView(),
-      appBar: CustomAppBar(
-          title: selectedName(),
-          onTap: () {
-            _scaffoldKey.currentState.openDrawer();
-          }),
       body: Center(
           child: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -100,7 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onItemTapped,
         currentIndex: _selectedIndex,
       ),
-      drawer: DrawerView(),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

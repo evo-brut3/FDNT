@@ -1,3 +1,4 @@
+import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:fdnt/business_logic/data_types/event.dart';
+
+import 'drawer_view.dart';
 
 
 class FCalendarView extends StatefulWidget {
@@ -34,6 +37,10 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: CustomAppBar(
+          title: "Kalendarz",
+        ),
+      drawer: drawerView(context: context),
       body: SfCalendar(
         view: CalendarView.month,
         allowViewNavigation: true,
