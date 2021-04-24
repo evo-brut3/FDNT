@@ -1,3 +1,4 @@
+// It's a parent view for all views available after log in to the app.
 import 'package:fdnt/views/about_view.dart';
 import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/drawer_view.dart';
@@ -22,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
-    Center(child: NewsView()),
+    Center(child: NewsView(isUserLogged: true,)),
     Text(
       'W budowie...',
       style: optionStyle,

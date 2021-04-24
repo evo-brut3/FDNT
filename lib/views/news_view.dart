@@ -16,88 +16,103 @@ class NewsView extends StatelessWidget {
     return html.substring(t, html.indexOf('">', t));
   }
 
+  final bool isUserLogged;
+  NewsView({this.isUserLogged});
   @override
   Widget build(BuildContext context) {
     Provider.of<NewsListViewModel>(context, listen: false).fetchNews();
 
     return Scaffold(
-        appBar: CustomAppBar(
-          title: "Ogłoszenia",
-        ),
-        drawer: drawerView(context: context),
-        body: Consumer<NewsListViewModel>(builder: (context, model, child) {
-          return ListView.builder(
-              itemCount: model.posts.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                    onTap: () => {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      NewsShow(model.posts[index])))
-                        },
-                    child: Card(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.grey, width: 0.5),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Stack(children: [
-                              Container(
-                                  height: 200,
-                                  child: Container(
-                                    child: Html(
-                                      data: """
+      appBar: CustomAppBar(
+        title: "Ogłoszenia",
+      ),
+      drawer: drawerView(context: context),
+      body: isUserLogged
+          ? Consumer<NewsListViewModel>(builder: (context, model, child) {
+              return ListView.builder(
+                  itemCount: model.posts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                        onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NewsShow(model.posts[index])))
+                            },
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.grey, width: 0.5),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 7),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Stack(children: [
+                                  Container(
+                                      height: 200,
+                                      child: Container(
+                                        child: Html(
+                                          data: """
                         <body><div><img src='##'></div></body>
                         """
-                                          .replaceAll(
-                                              "##",
-                                              getCoverImage(
-                                                  model.posts[index].img)),
-                                      style: {
-                                        "body": Style(
-                                          margin: EdgeInsets.zero,
+                                              .replaceAll(
+                                                  "##",
+                                                  getCoverImage(
+                                                      model.posts[index].img)),
+                                          style: {
+                                            "body": Style(
+                                              margin: EdgeInsets.zero,
+                                            ),
+                                            "div": Style()
+                                          },
                                         ),
-                                        "div": Style()
-                                      },
-                                    ),
-                                  )),
-                              Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  child: new Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 40.0,
-                                      decoration: new BoxDecoration(
-                                        color: Colors.grey.withOpacity(0.7),
-                                      ),
+                                      )),
+                                  Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 0,
+                                      child: new Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 40.0,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.grey.withOpacity(0.7),
+                                          ),
+                                          child: Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
+                                            child: Text(
+                                                model.posts[index].title,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ))),
+                                  // This widget is added to catch taps on image (otherwise it thew errors)
+                                  Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 40,
+                                      top: 0,
                                       child: Container(
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 10),
-                                        child: Text(model.posts[index].title,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                      ))),
-                              // This widget is added to catch taps on image (otherwise it thew errors)
-                              Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 40,
-                                  top: 0,
-                                  child: Container(
-                                      decoration: new BoxDecoration(
-                                          color:
-                                              Colors.grey.withOpacity(0.02))))
-                            ]))));
-              });
-        }));
+                                          decoration: new BoxDecoration(
+                                              color: Colors.grey
+                                                  .withOpacity(0.02))))
+                                ]))));
+                  });
+            })
+          : Center(
+            child: Container(
+                child: Text(
+                    "Po zalogowaniu pojawią się tutaj posty",
+                    style: TextStyle(fontSize: 20),
+                ),
+              ),
+          ),
+    );
   }
 }
 

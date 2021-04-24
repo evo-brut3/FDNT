@@ -1,6 +1,8 @@
 
+import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/views/email_tab/mail_list/email_preview_view.dart';
+import 'package:fdnt/views/email_tab/mail_list/recieved_mails.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,108 +12,74 @@ import 'package:provider/provider.dart';
 import '../../drawer_view.dart';
 import 'mail_compose/create_mail_view.dart';
 
-Widget emailsListView(EmailListViewModel model, BuildContext baseContext) {
-  return Scaffold(
-      appBar: CustomAppBar(title: "O Fundacji",),
-      drawer: drawerView(context: baseContext, items: Column(
-        children: [
-          ListTile(
-            title: Text("Odebrane"),
-            leading: Icon(Icons.inbox),
-          ),
-          ListTile(
-            title: Text("Wysłane"),
-            leading: Icon(Icons.send),
-          ),
-          ListTile(
-            title: Text("Robocze"),
-            leading: Icon(Icons.drafts),
-          ),
-          ListTile(
-            title: Text("Kosz"),
-            leading: Icon(Icons.delete),
-          )
-        ],
-      )),
-    floatingActionButton: writeMailBtn(baseContext),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    body: NotificationListener<ScrollEndNotification>(
-      onNotification: (scrollEnd) {
-        var metrics = scrollEnd.metrics;
-          if (metrics.atEdge) {
-            if (metrics.pixels != 0) {
-              Provider.of<EmailListViewModel>(baseContext, listen: false)
-                  .scrolledToBottom();
-            }
-          }
-        return true;
-        },
-      child: ListView.builder(
-        itemCount: model.emails.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () => {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EmailPreviewView(
-                            title: model.emails[index].title,
-                            senderName: model.emails[index].senderName,
-                            content: model.emails[index].content,
-                            dayTime: model.emails[index].dayTime
-                          )
-                  )
-              )
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.11,
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          model.emails[index].senderName,
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      Flexible(
-                          child: Text(model.emails[index].title,
-                            style: TextStyle(
-                                color: Color(0xff878787),
-                                fontWeight: FontWeight.normal
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.1, 0, 0, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [Text(model.emails[index].sendTime)],
-                  ),
-                )
-              ],
-            ),
-          );
-        }),
+class EmailsListView extends StatefulWidget {
 
-  ));
+  final EmailListViewModel model;
 
+  EmailsListView({Key key, this.model}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _EmailsListViewState(model);
 }
+
+class _EmailsListViewState extends State<EmailsListView> {
+
+  final EmailListViewModel model;
+  _EmailsListViewState(this.model);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget _scaffoldBody = receivedMails(context, model);
+    int _selectedDestination = 0;
+    void selectDestination(int index) {
+      setState(() {
+        _selectedDestination = index;
+        switch(index) {
+          case 0:
+            _scaffoldBody = receivedMails(context, model);
+            break;
+          default:
+            _scaffoldBody = Container();
+        }
+      });
+    }
+    return Scaffold(
+        appBar: CustomAppBar(title: "O Fundacji",),
+        drawer: drawerView(context: context, items: Column(
+          children: [
+            ListTile(
+              title: Text("Odebrane"),
+              leading: Icon(Icons.inbox),
+              selected: _selectedDestination == 0,
+              onTap: () => selectDestination(0),
+            ),
+            ListTile(
+                title: Text("Wysłane"),
+                leading: Icon(Icons.send),
+                selected: _selectedDestination == 1,
+                onTap: () => selectDestination(1)
+            ),
+            ListTile(
+                title: Text("Robocze"),
+                leading: Icon(Icons.drafts),
+                selected: _selectedDestination == 2,
+                onTap: () => selectDestination(2)
+            ),
+            ListTile(
+                title: Text("Kosz"),
+                leading: Icon(Icons.delete),
+                selected: _selectedDestination == 3,
+                onTap: () => selectDestination(3)
+            )
+          ],
+        )),
+        floatingActionButton: writeMailBtn(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        body: _scaffoldBody
+    );
+  }
+}
+
 Widget writeMailBtn(BuildContext context) {
   return FloatingActionButton.extended(
       onPressed: () {

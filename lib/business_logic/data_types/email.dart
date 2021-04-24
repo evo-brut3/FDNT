@@ -2,7 +2,7 @@
 import 'package:intl/intl.dart';
 
 class Email {
-  String title;
+  String title = "Bez tytułu";
   String sender;
   DateTime sendTime;
   String content;

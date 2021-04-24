@@ -9,7 +9,7 @@ class FirebaseService {
   final databaseReference = FirebaseDatabase.instance.reference();
 
   Future<List<Tab>> fetchTabs() async {
-    String userName = await AuthFirebase().userName;
+  String userName = await AuthFirebase().userName;
 
     List<Tab> tabs = [];
     if (userName != null) {

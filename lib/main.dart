@@ -10,7 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/views/drawer_view.dart';
-import 'package:fdnt/views/login_view.dart';
+import 'package:fdnt/views/notlogged_home_view.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 

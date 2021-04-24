@@ -9,6 +9,12 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 Widget drawerView({@required BuildContext context, Widget items}) {
+  bool ok;
+  if(FirebaseAuth.instance.currentUser?.uid == null) {
+    ok = false;
+  }
+  else ok = true;
+
   return Container(
       width: MediaQuery.of(context).size.width * 0.6,
       child: Drawer(
@@ -17,38 +23,45 @@ Widget drawerView({@required BuildContext context, Widget items}) {
           children: <Widget>[
             DrawerHeader(
               child: Container(
-                child: Column(
+                child: ok ? Column(
                   children: [
-                    Text("Zalogowano:", textAlign: TextAlign.start,),
-                    Text(FirebaseAuth.instance.currentUser.email, style: TextStyle(color: Colors.blue),),
+                    Text(
+                      "Zalogowano:",
+                      textAlign: TextAlign.start,
+                    ),
+                    Text(
+                      FirebaseAuth.instance.currentUser.email,
+                      style: TextStyle(color: Colors.blue),
+                    ),
                     Container(
                         height: 80,
                         alignment: Alignment.bottomRight,
                         child: GestureDetector(
                             onTap: () {
                               AuthFirebase().signOut();
-                              FlutterSession().set("isLoggedToMailbox", false);
+                              FlutterSession()
+                                  .set("isLoggedToMailbox", false);
                             },
-                            child: Row(
-                                children: [
-                                  Icon(Icons.logout),
-                                  Text("Wyloguj się", style: TextStyle(fontSize: 16),)
-                                ]))
-                    )
+                            child: Row(children: [
+                              Icon(Icons.logout),
+                              Text(
+                                "Wyloguj się",
+                                style: TextStyle(fontSize: 16),
+                              )
+                            ])))
                   ],
-                ),
+                )
+                    : Container(),
               ),
               decoration: BoxDecoration(color: Colors.yellow[200]),
             ),
-            items != null
-                ? items
-                : Container()
+            items != null ? items : Container()
           ],
         ),
       ));
 }
 
- /* Widget createListTileFromTab(BuildContext context) {
+/* Widget createListTileFromTab(BuildContext context) {
     return Consumer<DrawerViewModel>(builder: (context, drawer, child) {
       debugPrint("[Size of tabsList: ${drawer.tabs.length}]");
       return ListView.builder(
@@ -61,4 +74,3 @@ Widget drawerView({@required BuildContext context, Widget items}) {
       );
     });
   }*/
-

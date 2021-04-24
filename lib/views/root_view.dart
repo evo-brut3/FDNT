@@ -1,6 +1,6 @@
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/views/home_view.dart';
-import 'package:fdnt/views/login_view.dart';
+import 'package:fdnt/views/notlogged_home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class RootView extends StatelessWidget {
           // User is not signed in
           if (snapshot.data == null) {
             debugPrint("[User is not signed in] FirebaseUser's data is null");
-            return LoginView();
+            return NotLoggedHomeView();
           }
           // User is signed in
           debugPrint("[User is signed in]");

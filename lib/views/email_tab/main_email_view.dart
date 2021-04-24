@@ -27,7 +27,7 @@ class _MainEmailViewState extends State<MainEmailView> {
       body: Consumer<EmailListViewModel>(
               builder: (context, model, _) {
                 if(model.isLoggedToMailBox)  {
-                  return emailsListView(model, context);
+                  return EmailsListView(model: model);
                 }
                 else {
                   //final store = FlutterSecureStorage();
@@ -47,7 +47,7 @@ class _MainEmailViewState extends State<MainEmailView> {
       appBar: CustomAppBar(
         title: "O Fundacji",
       ),
-      drawer: drawerView(),
+      drawer: drawerView(context: context),
       body: Column(
         children: [
           Center(

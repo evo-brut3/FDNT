@@ -12,8 +12,7 @@ class AuthFirebase extends ChangeNotifier {
   }
 
   Future<String> get userName async {
-    var email = await userEmail
-      ..toString();
+    var email = await userEmail..toString();
 
     return email.substring(0, email.indexOf("@")).replaceAll(".", "");
   }
