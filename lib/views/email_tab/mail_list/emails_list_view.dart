@@ -27,58 +27,73 @@ class _EmailsListViewState extends State<EmailsListView> {
   final EmailListViewModel model;
   _EmailsListViewState(this.model);
 
+  int _selectedDestination = 0;
+  Widget _scaffoldBody;
+  void selectDestination(int index) {
+    setState(() {
+      _selectedDestination = index;
+      switch(index) {
+        case 0:
+          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          break;
+        case 1:
+          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          break;
+        case 2:
+          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          break;
+        case 3:
+          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          break;
+        default:
+          _scaffoldBody = Container();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget _scaffoldBody = receivedMails(context, model);
-    int _selectedDestination = 0;
-    void selectDestination(int index) {
-      setState(() {
-        _selectedDestination = index;
-        switch(index) {
-          case 0:
-            _scaffoldBody = receivedMails(context, model);
-            break;
-          default:
-            _scaffoldBody = Container();
-        }
-      });
-    }
+    selectDestination(_selectedDestination);
+
     return Scaffold(
         appBar: CustomAppBar(title: "O Fundacji",),
         drawer: drawerView(context: context, items: Column(
-          children: [
-            ListTile(
-              title: Text("Odebrane"),
-              leading: Icon(Icons.inbox),
-              selected: _selectedDestination == 0,
-              onTap: () => selectDestination(0),
-            ),
-            ListTile(
-                title: Text("Wysłane"),
-                leading: Icon(Icons.send),
-                selected: _selectedDestination == 1,
-                onTap: () => selectDestination(1)
-            ),
-            ListTile(
-                title: Text("Robocze"),
-                leading: Icon(Icons.drafts),
-                selected: _selectedDestination == 2,
-                onTap: () => selectDestination(2)
-            ),
-            ListTile(
-                title: Text("Kosz"),
-                leading: Icon(Icons.delete),
-                selected: _selectedDestination == 3,
-                onTap: () => selectDestination(3)
-            )
-          ],
-        )),
+            children: [
+                ListTile(
+                  title: Text("Odebrane"),
+                  leading: Icon(Icons.inbox),
+                  selected: _selectedDestination == 0,
+                  onTap: () => selectDestination(0),
+                ),
+                ListTile(
+                    title: Text("Wysłane"),
+                    leading: Icon(Icons.send),
+                    selected: _selectedDestination == 1,
+                    onTap: () => selectDestination(1)
+                ),
+                ListTile(
+                    title: Text("Robocze"),
+                    leading: Icon(Icons.drafts),
+                    selected: _selectedDestination == 2,
+                    onTap: () => selectDestination(2)
+                ),
+                ListTile(
+                    title: Text("Kosz"),
+                    leading: Icon(Icons.delete),
+                    selected: _selectedDestination == 3,
+                    onTap: () => selectDestination(3)
+                )
+              ]),
+
+        ),
         floatingActionButton: writeMailBtn(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: _scaffoldBody
     );
+
   }
 }
+
 
 Widget writeMailBtn(BuildContext context) {
   return FloatingActionButton.extended(

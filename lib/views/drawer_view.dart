@@ -1,6 +1,5 @@
 import 'dart:ui';
-import 'package:enough_mail/media_type.dart';
-import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
+import 'package:fdnt/business_logic/viewmodels/user_util.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,11 +8,8 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 Widget drawerView({@required BuildContext context, Widget items}) {
-  bool ok;
-  if(FirebaseAuth.instance.currentUser?.uid == null) {
-    ok = false;
-  }
-  else ok = true;
+
+  bool ok = UserUtil.isUserLoggedIn();
 
   return Container(
       width: MediaQuery.of(context).size.width * 0.6,
@@ -60,6 +56,7 @@ Widget drawerView({@required BuildContext context, Widget items}) {
         ),
       ));
 }
+
 
 /* Widget createListTileFromTab(BuildContext context) {
     return Consumer<DrawerViewModel>(builder: (context, drawer, child) {

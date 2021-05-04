@@ -77,10 +77,9 @@ class EmailListViewModel extends ChangeNotifier {
 class EmailViewModel {
   final Email email;
   EmailViewModel(this.email);
-  String get title => this.email.title;
+  String get title => this.email.title ?? "Bez tytułu";
   String get content => this.email.content;
   String get sendTime => email.dayTime();
-  String get dayTime => this.email.dayTime();
   String get senderName => this.email.getSender;
   bool get isImportant => this.email.isImportant;
 }

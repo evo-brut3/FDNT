@@ -2,7 +2,9 @@
 import 'package:fdnt/views/email_tab/mail_list/mail_compose/email_reply.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 import 'mail_compose/create_mail_view.dart';
@@ -21,29 +23,25 @@ class EmailPreviewView extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(title: 'Poczta', isReturnIconEnabled: true),
-      body: Container(
-        child: SingleChildScrollView(
-            child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                createInfoView(context),
-                Center(child: createMessageView()),
-              ],
-            ),
-          )
-        ),
+      body: SingleChildScrollView(
+          child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              createInfoView(context),
+              createMessageView(),
+            ],
+          ),
+        )
       ),
     );
   }
 
   Widget createMessageView() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Html(
-        data: content,
-        shrinkWrap: true,
-      ),
+    return Html(
+      data: content,
+      shrinkWrap: true,
     );
   }
 
