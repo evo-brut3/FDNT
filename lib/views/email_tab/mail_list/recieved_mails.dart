@@ -8,7 +8,7 @@ import 'email_preview_view.dart';
 class ReceivedMailsList extends StatelessWidget {
   final BuildContext context;
   final EmailListViewModel model;
-  ReceivedMailsList({this.context, this.model});
+  ReceivedMailsList({this.context}) : model = Provider.of(context, listen: false);
 
 
   @override

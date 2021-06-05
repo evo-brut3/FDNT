@@ -39,17 +39,17 @@ class EmailService {
     return _client?.isLoggedIn ?? false;
   }
 
-  Future<int> emailsCount() async {
-    final box = await _client.selectInbox();
+  Future<int> emailsCount(String boxName) async {
+    final box = await _client.selectMailboxByPath(boxName);
     return box.messagesExists;
   }
 
   Future<List<Email>> fetchEmails(int index) async {
-    emailsCount();
+    String boxName = "SENT";
     List<Email> mails = [];
     try {
       debugPrint("[EmailService] Selecting the inbox...");
-      await _client.selectInbox();
+      await _client.selectMailboxByPath(boxName);
       debugPrint("[EmailService] Fetching messages...");
       final fetchResult = await _client.fetchMessage(index, "BODY[]");
       fetchResult.messages.forEach((msg) {

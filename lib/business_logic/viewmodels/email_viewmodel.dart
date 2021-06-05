@@ -32,7 +32,8 @@ class EmailListViewModel extends ChangeNotifier {
   }
 
   Future<void> loadEmails() async {
-    int emailsCount = await _service.emailsCount();
+    String boxName = "SENT";
+    int emailsCount = await _service.emailsCount(boxName);
     emailsLeft = emailsCount;
 
     this.emails.clear();

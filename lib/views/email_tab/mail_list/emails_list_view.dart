@@ -34,16 +34,16 @@ class _EmailsListViewState extends State<EmailsListView> {
       _selectedDestination = index;
       switch(index) {
         case 0:
-          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          _scaffoldBody = ReceivedMailsList(context: context);
           break;
         case 1:
-          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          _scaffoldBody = ReceivedMailsList(context: context);
           break;
         case 2:
-          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          _scaffoldBody = ReceivedMailsList(context: context);
           break;
         case 3:
-          _scaffoldBody = ReceivedMailsList(context: context, model: model);
+          _scaffoldBody = ReceivedMailsList(context: context);
           break;
         default:
           _scaffoldBody = Container();
