@@ -2,7 +2,7 @@ import 'package:enough_mail/enough_mail.dart';
 import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_session/flutter_session.dart';
+import 'package:fdnt/features/flutter_session.dart';
 
 class EmailService {
   ImapClient _client;

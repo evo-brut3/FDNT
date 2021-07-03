@@ -3,7 +3,7 @@ import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:fdnt/services/email_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_session/flutter_session.dart';
+import 'package:fdnt/features/flutter_session.dart';
 
 class EmailListViewModel extends ChangeNotifier {
   List<EmailViewModel> emails = [];

@@ -110,7 +110,7 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
           // Floating Action button Icon color
           iconColor: Colors.blue,
           // Flaoting Action button Icon
-          icon: AnimatedIcons.list_view,
+          animatedIconData: AnimatedIcons.list_view,
         )
     );
   }

@@ -3,15 +3,10 @@ import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/news_viewmodel.dart';
 import 'package:fdnt/services/firebase_auth.dart';
-import 'package:fdnt/services/firebase_service.dart';
-import 'package:fdnt/services/email_service.dart';
 import 'package:fdnt/views/root_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fdnt/views/drawer_view.dart';
-import 'package:fdnt/views/notlogged_home_view.dart';
-import 'package:flutter_session/flutter_session.dart';
+import 'package:fdnt/features/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

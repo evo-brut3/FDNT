@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_session/flutter_session.dart';
+import 'package:fdnt/features/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 import 'mail_list/mail_compose/create_mail_view.dart';

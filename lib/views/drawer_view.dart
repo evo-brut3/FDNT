@@ -4,8 +4,7 @@ import 'package:fdnt/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
-import 'package:provider/provider.dart';
+import 'package:fdnt/features/flutter_session.dart';
 
 Widget drawerView({@required BuildContext context, Widget items}) {
 
