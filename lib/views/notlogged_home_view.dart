@@ -72,7 +72,12 @@ class _NotLoggedHomeViewState extends State<NotLoggedHomeView> {
   }
 }
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatefulWidget {
+  @override
+  _SignInFormState createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
     LoginViewModel loginViewModel = Provider.of<LoginViewModel>(context);
@@ -116,13 +121,13 @@ class SignInForm extends StatelessWidget {
                 child: Text("Zaloguj się", textAlign: TextAlign.center,),
               ),
               onPressed: () async {
+                bool ok = await loginViewModel.signIn(context);
                 showDialog(
                     barrierDismissible: false,
                     context: _scaffoldKey.currentContext,
                     builder: (BuildContext context) {
                       return Center(child: CircularProgressIndicator());
                     });
-                bool ok = await loginViewModel.signIn(context);
                 Navigator.of(_scaffoldKey.currentContext).pop();
 
                 if(ok) {
