@@ -64,6 +64,7 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         //Init Floating Action Bubble
         floatingActionButton: FloatingActionBubble(
+          backGroundColor: Colors.blue,
           // Menu items
           items: <Bubble>[
             // Floating action menu item

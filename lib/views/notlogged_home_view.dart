@@ -90,6 +90,7 @@ class _SignInFormState extends State<SignInForm> {
           Container(
             child: TextFormField(
               controller: loginViewModel.emailController,
+              autofillHints: [AutofillHints.email],
               decoration: InputDecoration(
                   border: const OutlineInputBorder(
                       borderRadius: const BorderRadius.all(Radius.circular(10))),
@@ -102,6 +103,7 @@ class _SignInFormState extends State<SignInForm> {
           Container(
             child: TextFormField(
               controller: loginViewModel.passwordController,
+              autofillHints: [AutofillHints.password],
               decoration: InputDecoration(
                   border: const OutlineInputBorder(
                       borderRadius: const BorderRadius.all(Radius.circular(10))),
