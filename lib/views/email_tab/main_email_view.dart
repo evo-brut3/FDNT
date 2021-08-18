@@ -1,13 +1,9 @@
-import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
-import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/email_tab/mail_list/emails_list_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fdnt/features/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 import 'mail_list/mail_compose/create_mail_view.dart';
@@ -47,7 +43,6 @@ class _MainEmailViewState extends State<MainEmailView> {
       appBar: CustomAppBar(
         title: "O Fundacji",
       ),
-      drawer: drawerView(context: context),
       body: Column(
         children: [
           Center(

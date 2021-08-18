@@ -2,8 +2,6 @@ import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'drawer_view.dart';
-
 class AboutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -11,7 +9,6 @@ class AboutView extends StatelessWidget {
         appBar: CustomAppBar(
           title: "O Fundacji",
         ),
-        drawer: drawerView(context: context),
         body: Container(
             margin: EdgeInsets.all(15),
             child: SingleChildScrollView(

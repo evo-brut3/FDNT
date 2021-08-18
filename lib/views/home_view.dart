@@ -1,9 +1,11 @@
 // It's a parent view for all views available after log in to the app.
+import 'package:fdnt/features/flutter_session.dart';
+import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/views/about_view.dart';
 import 'package:fdnt/views/calendar_view.dart';
-import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/email_tab/main_email_view.dart';
 import 'package:fdnt/views/news_view.dart';
+import 'package:fdnt/views/notlogged_home_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,10 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Center(child: NewsView(isUserLogged: true,)),
-    Text(
-      'W budowie...',
-      style: optionStyle,
-    ),
+    Center(child: NotLoggedHomeView()),
     Center(child: MainEmailView()),
     Center(child: FCalendarView()),
     Center(child: AboutView())
@@ -36,6 +35,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      // if log out is chosen
+      if (_selectedIndex == 1) {
+        AuthFirebase().signOut();
+        FlutterSession().set("isLoggedToMailbox", false);
+      }
     });
   }
 
@@ -45,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         return "Ogłoszenia";
       case 1:
-        return "Komunikator";
+        return "Wyloguj się";
       case 2:
         return "Poczta";
       case 3:
@@ -76,8 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Główna',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Komunikator',
+            icon: Icon(Icons.logout),
+            label: 'Wyloguj się',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.mail),

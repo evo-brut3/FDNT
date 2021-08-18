@@ -1,5 +1,4 @@
 import 'package:fdnt/business_logic/viewmodels/news_viewmodel.dart';
-import 'package:fdnt/views/drawer_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,6 @@ class NewsView extends StatelessWidget {
       appBar: CustomAppBar(
         title: "Ogłoszenia",
       ),
-      drawer: drawerView(context: context),
       body: isUserLogged
           ? Consumer<NewsListViewModel>(builder: (context, model, child) {
               return ListView.builder(

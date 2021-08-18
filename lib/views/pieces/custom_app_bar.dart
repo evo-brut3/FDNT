@@ -12,8 +12,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=> {
-        this.onTap()
+      onTap: () {
+        this.onTap();
       },
       child: SafeArea(
         child: Padding(
