@@ -1,6 +1,8 @@
+import 'package:fdnt/business_logic/viewmodels/events_viewmodel.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,42 +38,43 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<EventsViewModel>(context, listen: false).fetchEvents();
+
     return Scaffold(
         appBar: CustomAppBar(
           title: "Kalendarz",
         ),
       drawer: drawerView(context: context),
-      body: SfCalendar(
-        view: CalendarView.month,
-        allowViewNavigation: true,
-        firstDayOfWeek: 1,
-        controller: _calendarController,
-        dataSource: EventsDataSource(_getDataSource()),
-        monthViewSettings: MonthViewSettings(
-            appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
-        onTap: (CalendarTapDetails details) {
-          // Show an event when which was tapped
-          if(details.appointments != null &&  details.appointments.length == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context)
-              => EventShow(details.appointments.first)),
-            );
-          }
-        },
-      ),
-
+      body: Consumer<EventsViewModel>(builder: (context, model, child) {
+        return SfCalendar(
+          view: CalendarView.month,
+          allowViewNavigation: true,
+          firstDayOfWeek: 1,
+          controller: _calendarController,
+          dataSource: EventsDataSource(model.events),
+          monthViewSettings: MonthViewSettings(
+              appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
+          onTap: (CalendarTapDetails details) {
+            // Show an event when which was tapped
+            if(details.appointments != null &&  details.appointments.length == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)
+                => EventShow(details.appointments.first)),
+              );
+            }
+          },
+        );}),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         //Init Floating Action Bubble
         floatingActionButton: FloatingActionBubble(
-          // Menu items
-          items: <Bubble>[
-            // Floating action menu item
-            Bubble(
-              title:"Dzień",
-              iconColor :Colors.white,
-              bubbleColor : Colors.blue,
-              icon: Icons.today,
+        items: <Bubble>[
+        // Floating action menu item
+        Bubble(
+        title:"Dzień",
+        iconColor :Colors.white,
+        bubbleColor : Colors.blue,
+        icon: Icons.today,
               titleStyle:TextStyle(fontSize: 16 , color: Colors.white),
               onPress: () {
                 _calendarController.view = CalendarView.day;
@@ -105,7 +108,6 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
               _animationController.forward();
             }
             },
-
 
           // Floating Action button Icon color
           iconColor: Colors.blue,
@@ -220,18 +222,21 @@ class EventShow extends StatelessWidget {
 
 }
 
+/*
 // TODO: this function should return real events
-List<Event> _getDataSource() {
+Future<List<Event>> _getDataSource() async {
   var events = <Event>[];
+
   final DateTime today = DateTime.now();
   final DateTime startTime =
       DateTime(today.year, today.month, today.day, 9, 0, 0);
   final DateTime endTime = startTime.add(const Duration(hours: 2));
-  events.add(Event('Fajne wydarzenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!22222222222222222222222222222222222222222222222222222222222222222222222222222!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1', startTime, endTime, const Color(0xFF0F8644), "Dla stypendystów"));
+  events.add(Event('Fajne wydarzenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!22222222222222222222222222222222222222222222222222222222222222222222222222222!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1',
+      startTime, endTime, const Color(0xFF0F8644), "Dla stypendystów", "", false, null));
   events.add(Event('Conference', startTime, endTime,
-      const Color.fromRGBO(3, 10, 1000, 2), "dla warszawy"));
+      const Color.fromRGBO(3, 10, 1000, 2), "dla warszawy", "", false, null));
   return events;
-}
+}*/
 
 class EventsDataSource extends CalendarDataSource {
   EventsDataSource(List<Event> source) {

@@ -43,6 +43,8 @@ dependencies:
   enough_mail_html: ^1.3.0
   mailer: ^5.0.0
 
+  http: ^0.13.3
+
   intl: ^0.17.0
 
   webview_flutter: ^2.0.9

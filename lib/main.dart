@@ -2,6 +2,7 @@ import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/drawer_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/news_viewmodel.dart';
+import 'package:fdnt/business_logic/viewmodels/events_viewmodel.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/views/root_view.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +19,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => EmailListViewModel()),
       ChangeNotifierProvider(create: (context) => AuthFirebase()),
       ChangeNotifierProvider(create: (context) => LoginViewModel()),
-      ChangeNotifierProvider(create: (context) => NewsListViewModel())
+      ChangeNotifierProvider(create: (context) => NewsListViewModel()),
+      ChangeNotifierProvider(create: (context) => EventsViewModel())
     ],
     child: MyApp(),
   ));

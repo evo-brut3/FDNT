@@ -34,7 +34,7 @@ class AuthFirebase extends ChangeNotifier {
       } else {
         debugPrint(e.code);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Coś poszło nie tak..."),
+          content: Text("Coś poszło nie tak..."),
         ));
       }
       return false;

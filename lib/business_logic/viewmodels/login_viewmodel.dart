@@ -1,3 +1,4 @@
+import 'package:fdnt/services/fdntpl.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,8 @@ class LoginViewModel extends ChangeNotifier {
         passwordController.text.trim(),
         context
     );
+
+    await signInFDNT(emailController.text.trim(), passwordController.text.trim());
 
     if (ok) {
       this.email = emailController.text.trim();
