@@ -25,7 +25,9 @@ Future<bool> signInFDNT(String email, String password) async {
   return true;
 }
 
-dynamic getEventsFDNT() async {
+// Pobiera wydarzenia z fdnt.pl
+Future<List<dynamic>> getEventsFDNT() async {
+  // Najpierw dowiadujemy się w jakich jest wspólnotach
   final Uri communityUri = Uri.parse("https://api.fdnt.pl/api/v1/public/user_community/");
   final Map<String, String> communityHeaders = {
     'Content-type': 'application/json',
@@ -34,16 +36,29 @@ dynamic getEventsFDNT() async {
   };
   final communityResponse = await http.get(communityUri, headers: communityHeaders);
 
-  final int communityInt = jsonDecode(communityResponse.body.toString())[0]['community'];
-  final String community = communityInt.toString();
-  final Map<String, String> eventsParameters = {
-    'community': community,
-    'semester': '4',
-  };
+  if (communityResponse.statusCode != 200) {
+    return null;
+  }
 
-  final Uri eventsUri = Uri.https("api.fdnt.pl", "/api/v1/public/events/", eventsParameters);
-  final eventsResponse = await http.get(eventsUri, headers: communityHeaders);
+  final dynamic decodedCommunity = jsonDecode(communityResponse.body);
+  List<dynamic> eventsDecoded = [];
 
-  return jsonDecode(eventsResponse.body);
+  // Iterujemy po wspólnotach w których jest.
+  for (int i = 0; i < decodedCommunity.length; i++) {
+    final int communityInt = decodedCommunity[i]['community'];
+    final String community = communityInt.toString();
+    final Map<String, String> eventsParameters = {
+      'community': community,
+      'semester': '4',
+    };
+    final Uri eventsUri = Uri.https("api.fdnt.pl", "/api/v1/public/events/", eventsParameters);
+    final eventsResponse = await http.get(eventsUri, headers: communityHeaders);
+    final List<dynamic> newEvents = jsonDecode(utf8.decode(eventsResponse.bodyBytes));
+
+    newEvents.forEach((element) {element['community'] = decodedCommunity[i]['community_data']['name'].toString();});
+    eventsDecoded.addAll(newEvents);
+  }
+
+  return eventsDecoded;
 }
 

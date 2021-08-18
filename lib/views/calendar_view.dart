@@ -51,7 +51,7 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
           controller: _calendarController,
           dataSource: EventsDataSource(model.events),
           monthViewSettings: MonthViewSettings(
-              appointmentDisplayMode: MonthAppointmentDisplayMode.indicator),
+              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
           onTap: (CalendarTapDetails details) {
             // Show an event when which was tapped
             if(details.appointments != null &&  details.appointments.length == 1) {
@@ -157,6 +157,18 @@ class EventShow extends StatelessWidget {
               margin: globalInsets,
               child: Row(
                 children: [
+                  Icon(Icons.description),
+                  Flexible(
+                      child: Container( margin: textInsets,
+                          child: Text(event.description,
+                            style: textStyle, overflow: TextOverflow.ellipsis, maxLines: 100,))
+                  )
+                ],
+              )),
+          Container(
+              margin: globalInsets,
+              child: Row(
+                children: [
                   Icon(Icons.event),
                   Flexible(
                       child: Container( margin: textInsets,
@@ -193,22 +205,10 @@ class EventShow extends StatelessWidget {
               margin: globalInsets,
               child: Row(
                 children: [
-                  Icon(Icons.location_on),
+                  Icon(Icons.assignment_turned_in_sharp),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text('Gdzie to jest????',
-                            style: textStyle, overflow: TextOverflow.ellipsis,))
-                  )
-                ],
-              )),
-          Container(
-              margin: globalInsets,
-              child: Row(
-                children: [
-                  Icon(Icons.people_alt_rounded),
-                  Flexible(
-                      child: Container( margin: textInsets,
-                          child: Text('Ile osób??',
+                          child: Text(event.mandatory ? "Obowiązkowe" : "Nieobowiązkowe",
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
@@ -219,22 +219,6 @@ class EventShow extends StatelessWidget {
   }
 
 }
-
-/*
-// TODO: this function should return real events
-Future<List<Event>> _getDataSource() async {
-  var events = <Event>[];
-
-  final DateTime today = DateTime.now();
-  final DateTime startTime =
-      DateTime(today.year, today.month, today.day, 9, 0, 0);
-  final DateTime endTime = startTime.add(const Duration(hours: 2));
-  events.add(Event('Fajne wydarzenie!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!22222222222222222222222222222222222222222222222222222222222222222222222222222!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1',
-      startTime, endTime, const Color(0xFF0F8644), "Dla stypendystów", "", false, null));
-  events.add(Event('Conference', startTime, endTime,
-      const Color.fromRGBO(3, 10, 1000, 2), "dla warszawy", "", false, null));
-  return events;
-}*/
 
 class EventsDataSource extends CalendarDataSource {
   EventsDataSource(List<Event> source) {
