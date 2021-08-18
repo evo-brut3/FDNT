@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 
 String authentication;
 
-Future<void> signInFDNT(String email, String password) async {
+// Zwraca true jeśli osoba ma konto w fdnt.pl oraz false w przeciwnym wypadku
+Future<bool> signInFDNT(String email, String password) async {
   final Map<String, String> content = {
     'email': email,
     'password': password,
@@ -17,7 +18,11 @@ Future<void> signInFDNT(String email, String password) async {
   final Uri loginUri = Uri.parse("https://api.fdnt.pl/api/account/login/");
   final loginResponse = await http.post(loginUri, body: jsonEncode(content), headers: loginHeaders);
 
+  if (loginResponse.statusCode != 200)
+    return false;
+
   authentication = "Bearer " + jsonDecode(loginResponse.body)['token'];
+  return true;
 }
 
 dynamic getEventsFDNT() async {

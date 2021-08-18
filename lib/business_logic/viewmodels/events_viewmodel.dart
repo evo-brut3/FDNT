@@ -7,7 +7,7 @@ class EventsViewModel extends ChangeNotifier {
 
   Future<void> fetchEvents() async {
     final results = await getEventsFDNT();
-    this.events = results.map((event) => Event.fromJson(event)).toList();
+    this.events = results.
     notifyListeners();
   }
 }
