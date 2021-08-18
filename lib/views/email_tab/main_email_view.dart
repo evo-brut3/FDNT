@@ -1,9 +1,12 @@
+import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/views/email_tab/mail_list/emails_list_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import 'mail_list/mail_compose/create_mail_view.dart';
@@ -26,8 +29,6 @@ class _MainEmailViewState extends State<MainEmailView> {
                   return EmailsListView(model: model);
                 }
                 else {
-                  //final store = FlutterSecureStorage();
-                  //String password = await store.read(key: CacheKey.mailboxPassword);
                   return loginToMailbox(context);
                 }
               }
@@ -36,6 +37,14 @@ class _MainEmailViewState extends State<MainEmailView> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  /*Future<String> passwordFetch() async {
+    final storage = FlutterSecureStorage();
+    String password = await storage.read(key: CacheKey.mailboxPassword);
+    if(password == null) return '';
+    return password;
+  }*/
 
 
   Widget loginToMailbox(BuildContext context) {
@@ -58,9 +67,8 @@ class _MainEmailViewState extends State<MainEmailView> {
                   contentPadding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                 ),
                 obscureText: true,
-                controller:
-                    Provider.of<EmailListViewModel>(context, listen: false)
-                        .emailPasswordTextController,
+                controller: Provider.of<EmailListViewModel>(context, listen: false)
+                    .emailPasswordTextController,
               ),
             ),
           ),
@@ -75,11 +83,11 @@ class _MainEmailViewState extends State<MainEmailView> {
                 progressWidget: CircularProgressIndicator(),
                 onPressed: () async {
                   showDialog(
-                    barrierDismissible: false,
-                    context: _scaffoldKey.currentContext,
-                    builder: (BuildContext context) {
-                      return Center(child: CircularProgressIndicator());
-                    });
+                      barrierDismissible: false,
+                      context: _scaffoldKey.currentContext,
+                      builder: (BuildContext context) {
+                        return Center(child: CircularProgressIndicator());
+                      });
                   await Provider.of<EmailListViewModel>(context, listen: false)
                       .loginButtonClicked();
                   Navigator.of(_scaffoldKey.currentContext).pop();

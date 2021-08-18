@@ -1,5 +1,6 @@
 import 'package:fdnt/services/fdntpl.dart';
 import 'package:fdnt/services/firebase_auth.dart';
+import 'package:fdnt/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +20,17 @@ class LoginViewModel extends ChangeNotifier {
         context
     );
 
-    await signInFDNT(emailController.text.trim(), passwordController.text.trim());
+    await signInFDNT(emailController.text.trim(), passwordController.text.trim())
+        .then((value) => {
+          if (value) {
+            FirebaseService().addFdntplUser(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim(),
+            )
+          } else {
+            debugPrint("User doesn't exists on fdnt.pl platform")
+          }
+    });
 
     if (ok) {
       this.email = emailController.text.trim();

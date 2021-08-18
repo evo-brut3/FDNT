@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 String authentication;
@@ -22,6 +23,10 @@ Future<bool> signInFDNT(String email, String password) async {
     return false;
 
   authentication = "Bearer " + jsonDecode(loginResponse.body)['token'];
+
+  final storage = FlutterSecureStorage();
+  storage.write(key: 'authentication', value: authentication);
+
   return true;
 }
 

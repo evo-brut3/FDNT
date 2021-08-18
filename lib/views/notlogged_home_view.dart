@@ -131,13 +131,13 @@ class _SignInFormState extends State<SignInForm> {
                 animate: true,
                 progressWidget: CircularProgressIndicator(),
                 onPressed: () async {
+                  await loginViewModel.signIn(context);
                   showDialog(
                       barrierDismissible: false,
                       context: context,
                       builder: (BuildContext context) {
                         return Center(child: CircularProgressIndicator());
                       });
-                  await loginViewModel.signIn(context);
                   Navigator.of(_scaffoldKey.currentContext).pop();
                 },
                 color: Colors.yellow,

@@ -18,7 +18,6 @@ class EmailListViewModel extends ChangeNotifier {
   Future<void> loginButtonClicked() async {
     dynamic email = (await FlutterSession().get("email")) as String;
     var password = emailPasswordTextController.text.trim().toString();
-
     await startLogging(email, password);
 
     final storage = FlutterSecureStorage();
