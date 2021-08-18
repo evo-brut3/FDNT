@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'package:fdnt/business_logic/data_types/event.dart';
 
-import 'drawer_view.dart';
-
-
 class FCalendarView extends StatefulWidget {
   @override
   _FCalendarViewState createState() => _FCalendarViewState();
@@ -40,7 +37,6 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
         appBar: CustomAppBar(
           title: "Kalendarz",
         ),
-      drawer: drawerView(context: context),
       body: SfCalendar(
         view: CalendarView.month,
         allowViewNavigation: true,

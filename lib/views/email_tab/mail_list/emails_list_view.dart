@@ -1,15 +1,10 @@
 
 import 'package:fdnt/business_logic/data_types/email.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
-import 'package:fdnt/views/email_tab/mail_list/email_preview_view.dart';
 import 'package:fdnt/views/email_tab/mail_list/recieved_mails.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
-
-import '../../drawer_view.dart';
 import 'mail_compose/create_mail_view.dart';
 
 class EmailsListView extends StatefulWidget {
@@ -57,35 +52,6 @@ class _EmailsListViewState extends State<EmailsListView> {
 
     return Scaffold(
         appBar: CustomAppBar(title: "O Fundacji",),
-        drawer: drawerView(context: context, items: Column(
-            children: [
-                ListTile(
-                  title: Text("Odebrane"),
-                  leading: Icon(Icons.inbox),
-                  selected: _selectedDestination == 0,
-                  onTap: () => selectDestination(0),
-                ),
-                ListTile(
-                    title: Text("Wysłane"),
-                    leading: Icon(Icons.send),
-                    selected: _selectedDestination == 1,
-                    onTap: () => selectDestination(1)
-                ),
-                ListTile(
-                    title: Text("Robocze"),
-                    leading: Icon(Icons.drafts),
-                    selected: _selectedDestination == 2,
-                    onTap: () => selectDestination(2)
-                ),
-                ListTile(
-                    title: Text("Kosz"),
-                    leading: Icon(Icons.delete),
-                    selected: _selectedDestination == 3,
-                    onTap: () => selectDestination(3)
-                )
-              ]),
-
-        ),
         floatingActionButton: writeMailBtn(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         body: _scaffoldBody
