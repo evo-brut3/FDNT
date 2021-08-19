@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-String authentication;
-
 // Zwraca true jeśli osoba ma konto w fdnt.pl oraz false w przeciwnym wypadku
 Future<bool> signInFDNT(String email, String password) async {
   final Map<String, String> content = {
@@ -22,7 +20,7 @@ Future<bool> signInFDNT(String email, String password) async {
   if (loginResponse.statusCode != 200)
     return false;
 
-  authentication = "Bearer " + jsonDecode(loginResponse.body)['token'];
+  String authentication = "Bearer " + jsonDecode(loginResponse.body)['token'];
 
   final storage = FlutterSecureStorage();
   storage.write(key: 'authentication', value: authentication);
@@ -32,6 +30,10 @@ Future<bool> signInFDNT(String email, String password) async {
 
 dynamic getEventsFDNT() async {
   final Uri communityUri = Uri.parse("https://api.fdnt.pl/api/v1/public/user_community/");
+
+  final storage = FlutterSecureStorage();
+  String authentication = await storage.read(key: 'authentication');
+
   final Map<String, String> communityHeaders = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
