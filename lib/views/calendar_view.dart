@@ -60,6 +60,7 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
                 MaterialPageRoute(builder: (context)
                 => EventShow(details.appointments.first)),
               );
+              _calendarController.view = CalendarView.month;
             }
           },
         );}),
@@ -133,7 +134,6 @@ class EventShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-  //    appBar: AppBar(backgroundColor: Colors.white60,),
       body: ListView(
         children: [
           Container(
