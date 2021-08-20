@@ -6,7 +6,6 @@ import 'package:fdnt/views/calendar_view.dart';
 import 'package:fdnt/views/email_tab/main_email_view.dart';
 import 'package:fdnt/views/news_view.dart';
 import 'package:fdnt/views/notlogged_home_view.dart';
-import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -26,17 +25,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Center(child: NewsView(isUserLogged: true,)),
-    Center(child: NotLoggedHomeView()),
     Center(child: MainEmailView()),
     Center(child: FCalendarView()),
-    Center(child: AboutView())
+    Center(child: AboutView()),
+    Center(child: NotLoggedHomeView())
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       // if log out is chosen
-      if (_selectedIndex == 1) {
+      if (_selectedIndex == 4) {
         AuthFirebase().signOut();
         FlutterSession().set("isLoggedToMailbox", false);
       }
@@ -49,13 +48,13 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         return "Ogłoszenia";
       case 1:
-        return "Wyloguj się";
-      case 2:
         return "Poczta";
-      case 3:
+      case 2:
         return "Kalendarz";
-      case 4:
+      case 3:
         return "O Fundacji";
+      case 4:
+        return "Wyloguj się";
     }
   }
 
@@ -80,10 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Główna',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Wyloguj się',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.mail),
             label: "Poczta",
           ),
@@ -94,6 +89,10 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             label: "O Fundacji",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.logout),
+            label: 'Wyloguj się',
           ),
         ],
         onTap: _onItemTapped,

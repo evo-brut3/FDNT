@@ -127,7 +127,7 @@ class _SignInFormState extends State<SignInForm> {
               widthFactor: 0.9,
               child: ProgressButton(
                 borderRadius: 8.0,
-                defaultWidget: Text("Zaloguj się do poczty"),
+                defaultWidget: Text("Zaloguj się"),
                 animate: true,
                 progressWidget: CircularProgressIndicator(),
                 onPressed: () async {
@@ -154,6 +154,12 @@ class _SignInFormState extends State<SignInForm> {
                     Navigator.of(context).pop();
                   },
                 );
+                Widget okButton = TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                );
                 Widget continueButton = TextButton(
                   child: Text("Wyślij"),
                   onPressed: () {
@@ -167,12 +173,16 @@ class _SignInFormState extends State<SignInForm> {
                   content: email != null && email.contains("@")
                       ? Text("Czy wysłać na adres " +
                           email +
-                          " link do zmiany/ustawienia hasła?")
+                          " link do zmiany/ustawienia hasła? "
+                              "Alternatywnie, możesz zalogować się za pomocą loginu i hasła "
+                              "ze strony fdnt.pl")
                       : Text(
-                          "Najpierw wpisz swój adres email w pole tekstowe."),
+                          "Możesz zresetować hasło wpisując swój adres "
+                              "email i klikając ponownie ten przycisk. Możesz też "
+                              "zalogować się podając login i hasło z fdnt.pl"),
                   actions: [
                     cancelButton,
-                    email != null && email.contains("@") ? continueButton : null
+                    email != null && email.contains("@") ? continueButton : okButton
                   ],
                 );
 
@@ -185,7 +195,7 @@ class _SignInFormState extends State<SignInForm> {
                 );
               },
               child: Text("Nie znasz hasła?",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)))
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
         ],
       ),
     );
