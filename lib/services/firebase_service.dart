@@ -5,6 +5,7 @@ import 'package:fdnt/services/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class FirebaseService {
+
   final databaseReference = FirebaseDatabase.instance.reference();
   Future<List<Tab>> fetchTabs() async {
     String userName = await AuthFirebase().userName;

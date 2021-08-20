@@ -53,7 +53,7 @@ class NewsView extends StatelessWidget {
                                       height: 200,
                                       child: Container(
                                         child: FutureBuilder<String>(
-                                          future: getBackgroundImageUrl('https://sites.google.com/view/fdnt-formacja/'),
+                                          future: getBackgroundImageUrl(model.posts[index].html),
                                           builder: (context, snapshot) {
                                             List<Widget> children;
                                             if (snapshot.hasData) {
