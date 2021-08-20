@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class NewsView extends StatelessWidget {
   String getCoverImage(String html) {
@@ -51,19 +52,33 @@ class NewsView extends StatelessWidget {
                                   Container(
                                       height: 200,
                                       child: Container(
-                                        child: Html(
-                                          data: """
-                        <body><div><img src='##'></div></body>
-                        """
-                                              .replaceAll(
-                                                  "##",
-                                                  getCoverImage(
-                                                      model.posts[index].img)),
-                                          style: {
-                                            "body": Style(
-                                              margin: EdgeInsets.zero,
-                                            ),
-                                            "div": Style()
+                                        child: FutureBuilder<String>(
+                                          future: getBackgroundImageUrl('https://sites.google.com/view/fdnt-formacja/'),
+                                          builder: (context, snapshot) {
+                                            List<Widget> children;
+                                            if (snapshot.hasData) {
+                                                children = [
+                                                  Container(
+                                                    width: MediaQuery.of(context).size.width,
+                                                    height: 200,
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        fit: BoxFit.fill,
+                                                        image: NetworkImage(snapshot.data)
+                                                      )
+                                                    ),
+                                                  )
+                                                ];
+                                            } else {
+                                                children = [
+                                                  Center(child: CircularProgressIndicator())
+                                                ];
+                                            }
+                                            return Center(
+                                              child: Column(
+                                                children: children,
+                                              ),
+                                            );
                                           },
                                         ),
                                       )),
@@ -114,6 +129,32 @@ class NewsView extends StatelessWidget {
   }
 }
 
+Future<String> getBackgroundImageUrl(String webpageUri) async {
+  String html = await fetchWebpageHtml(webpageUri);
+  //after this specific html part background image code starts
+  String needle = '<div class="IFuOkc"';
+  int index = html.indexOf(needle);
+  if (index == -1) throw Exception('error: image not found');
+
+  // remove all signs to the start of needle
+  html = html.substring(html.indexOf(needle) + needle.length);
+  //remove all chars to the first occurence of </div>
+  html = html.substring(0, html.indexOf('</div>'));
+
+  // extract background image url
+  String imgHtmlSrc = html.substring(
+      html.indexOf('https://'),
+      html.indexOf(')')
+  );
+  return imgHtmlSrc;
+}
+
+// Download site content
+Future<String> fetchWebpageHtml(String url) async {
+  Uri uri = Uri.parse(url);
+  http.Response response = await http.get(uri);
+  return response.body;
+}
 class NewsShow extends StatelessWidget {
   final NewsViewModel post;
   NewsShow(this.post);
