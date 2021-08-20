@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,8 +29,17 @@ Future<bool> signInFDNT(String email, String password) async {
   return true;
 }
 
+Future<void> repeatSignIn() async {
+  final storage = FlutterSecureStorage();
+  String email = await storage.read(key: "email");
+  String password = await storage.read(key: "password");
+
+  signInFDNT(email, password);
+}
+
 // Pobiera wydarzenia z fdnt.pl
-Future<List<dynamic>> getEventsFDNT() async {
+// Wywołując z zewnątrz ustaw repeat = false
+Future<List<dynamic>> getEventsFDNT(bool repeat) async {
   // Najpierw dowiadujemy się w jakich jest wspólnotach
   final Uri communityUri = Uri.parse("https://api.fdnt.pl/api/v1/public/user_community/");
 
@@ -44,7 +54,14 @@ Future<List<dynamic>> getEventsFDNT() async {
   final communityResponse = await http.get(communityUri, headers: communityHeaders);
 
   if (communityResponse.statusCode != 200) {
-    return null;
+    debugPrint(communityResponse.reasonPhrase);
+    if (repeat) {
+      throw SocketException(null);
+    }
+    else {
+      await repeatSignIn();
+      return getEventsFDNT(true);
+    }
   }
 
   final dynamic decodedCommunity = jsonDecode(communityResponse.body);
@@ -60,6 +77,10 @@ Future<List<dynamic>> getEventsFDNT() async {
     };
     final Uri eventsUri = Uri.https("api.fdnt.pl", "/api/v1/public/events/", eventsParameters);
     final eventsResponse = await http.get(eventsUri, headers: communityHeaders);
+    if (eventsResponse.statusCode != 200) {
+      debugPrint(eventsResponse.reasonPhrase);
+      throw SocketException(null);
+    }
     final List<dynamic> newEvents = jsonDecode(utf8.decode(eventsResponse.bodyBytes));
 
     newEvents.forEach((element) {element['community'] = decodedCommunity[i]['community_data']['name'].toString();});

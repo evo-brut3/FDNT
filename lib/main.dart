@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     FlutterSession().set("isLoggedToMailbox", false);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FDNT',
       theme: ThemeData(
           primarySwatch: Colors.yellow,
           textSelectionTheme:

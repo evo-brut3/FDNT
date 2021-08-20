@@ -4,9 +4,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Event {
-  Event(this.eventName, this.from, this.to, this.background, this.forWho, this.description, this.mandatory, this.image);
+  Event(this.id, this.eventName, this.from, this.to, this.background, this.forWho,
+      this.description, this.mandatory, this.image);
   Event.fromJson(dynamic json) {
     debugPrint(json.toString());
+    this.id = -json['id']; // Id z fdnt.pl będziemy przechowywać jako wartości ujemne.
     this.eventName = json['title'];
     this.from = DateTime.parse(json['date_start']);
     this.to = DateTime.parse(json['date_end']);
@@ -22,6 +24,7 @@ class Event {
     }
   }
 
+  int id;
   String eventName;
   String description;
   DateTime from;

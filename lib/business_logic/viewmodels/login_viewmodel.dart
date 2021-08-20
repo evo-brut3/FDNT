@@ -6,8 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fdnt/features/flutter_session.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginViewModel extends ChangeNotifier {
+  final storage = FlutterSecureStorage();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String email;
@@ -19,6 +21,9 @@ class LoginViewModel extends ChangeNotifier {
         passwordController.text.trim(),
         context
     );
+
+    storage.write(key: "email", value: emailController.text.trim());
+    storage.write(key: "password", value: passwordController.text.trim());
 
     await signInFDNT(emailController.text.trim(), passwordController.text.trim())
         .then((value) => {
