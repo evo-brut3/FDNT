@@ -71,7 +71,7 @@ class NewsView extends StatelessWidget {
                                                 ];
                                             } else {
                                                 children = [
-                                                  Center(child: CircularProgressIndicator())
+                                                  Image.asset('assets/images/default_img.png')
                                                 ];
                                             }
                                             return Center(
@@ -155,6 +155,8 @@ Future<String> fetchWebpageHtml(String url) async {
   http.Response response = await http.get(uri);
   return response.body;
 }
+
+
 class NewsShow extends StatelessWidget {
   final NewsViewModel post;
   NewsShow(this.post);
