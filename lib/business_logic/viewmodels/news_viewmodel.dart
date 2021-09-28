@@ -17,7 +17,6 @@ class NewsListViewModel extends ChangeNotifier {
 
 class NewsViewModel {
   final Tab tab;
-
   NewsViewModel({this.tab});
   String get title => this.tab.name;
   String get html => this.tab.website;

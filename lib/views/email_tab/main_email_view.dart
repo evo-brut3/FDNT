@@ -74,27 +74,45 @@ class _MainEmailViewState extends State<MainEmailView> {
           ),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-            child: FractionallySizedBox(
-              widthFactor: 0.9,
-              child: ProgressButton(
-                borderRadius: 8.0,
-                defaultWidget: Text("Zaloguj się do poczty"),
-                animate: true,
-                progressWidget: CircularProgressIndicator(),
-                onPressed: () async {
-                  showDialog(
-                      barrierDismissible: false,
-                      context: _scaffoldKey.currentContext,
-                      builder: (BuildContext context) {
-                        return Center(child: CircularProgressIndicator());
-                      });
-                  await Provider.of<EmailListViewModel>(context, listen: false)
-                      .loginButtonClicked();
-                  Navigator.of(_scaffoldKey.currentContext).pop();
-                },
-                color: Colors.yellow,
-              ),
-              //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            child: Column(
+              children: [
+                FractionallySizedBox(
+                  widthFactor: 0.9,
+                  child: ProgressButton(
+                    borderRadius: 8.0,
+                    defaultWidget: Text("Zaloguj się do poczty"),
+                    animate: true,
+                    progressWidget: CircularProgressIndicator(),
+                    onPressed: () async {
+                      showDialog(
+                          barrierDismissible: false,
+                          context: _scaffoldKey.currentContext,
+                          builder: (BuildContext context) {
+                            return Center(child: CircularProgressIndicator());
+                          });
+                      await Provider.of<EmailListViewModel>(context, listen: false)
+                          .loginButtonClicked();
+                      Navigator.of(_scaffoldKey.currentContext).pop();
+                    },
+                    color: Colors.yellow,
+                  ),
+                  //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(16, 128, 16, 0),
+                  child: Center(
+                    child: Text(
+                        "Jeżeli korzystasz z portalu fdnt.pl,  prosimy o użycie hasła takiego samego jak tam",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
+                      ),
+                      textAlign: TextAlign.center
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -71,7 +71,17 @@ class NewsView extends StatelessWidget {
                                                 ];
                                             } else {
                                                 children = [
-                                                  Image.asset('assets/images/default_img.png')
+                                                  Container(
+                                                    width: MediaQuery.of(context).size.width,
+                                                    height: 200,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.fill,
+                                                            image: AssetImage('assets/images/default_img.png')
+                                                        )
+                                                    ),
+                                                  )
+
                                                 ];
                                             }
                                             return Center(
