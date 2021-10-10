@@ -98,20 +98,6 @@ class _MainEmailViewState extends State<MainEmailView> {
                   ),
                   //padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                 ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(16, 128, 16, 0),
-                  child: Center(
-                    child: Text(
-                        "Jeżeli korzystasz z portalu fdnt.pl,  prosimy o użycie hasła takiego samego jak tam",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
-                      ),
-                      textAlign: TextAlign.center
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
