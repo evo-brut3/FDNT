@@ -24,9 +24,12 @@ class AuthFirebase extends ChangeNotifier {
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
+        // Jeśli użytkowniek jest fdnt.pl to i tak utwoży się konto w firebase
+        // TODO: jakis sensowny napis?
+        /*
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Niestety, ten użytkownik nie jest jeszcze w naszej bazie"),
-        ));
+        ));*/
       } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Niepoprawne hasło"),

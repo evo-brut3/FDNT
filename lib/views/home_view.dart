@@ -1,4 +1,5 @@
 // It's a parent view for all views available after log in to the app.
+import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/features/flutter_session.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/views/about_view.dart';
@@ -8,6 +9,7 @@ import 'package:fdnt/views/news_view.dart';
 import 'package:fdnt/views/notlogged_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -19,9 +21,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<Widget> _widgetOptions = <Widget>[
     Center(child: NewsView(isUserLogged: true,)),
@@ -38,6 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_selectedIndex == 4) {
         AuthFirebase().signOut();
         FlutterSession().set("isLoggedToMailbox", false);
+        final storage = FlutterSecureStorage();
+
+        storage.delete(key: CacheKey.mailboxLogin);
+        storage.delete(key: CacheKey.mailboxPassword);
       }
     });
   }

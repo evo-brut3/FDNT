@@ -9,6 +9,7 @@ class EmailListViewModel extends ChangeNotifier {
   List<EmailViewModel> emails = [];
   final emailPasswordTextController = TextEditingController();
   final _service = EmailService();
+  final storage = FlutterSecureStorage();
 
   int emailsLeft;
 
@@ -16,18 +17,22 @@ class EmailListViewModel extends ChangeNotifier {
   bool get isLoggedToMailBox => _service.isConnected();
 
   Future<void> loginButtonClicked() async {
-    dynamic email = (await FlutterSession().get("email")) as String;
-    var password = emailPasswordTextController.text.trim().toString();
-    await startLogging(email, password);
-
-    final storage = FlutterSecureStorage();
-    storage.write(key: CacheKey.mailboxLogin, value: email);
-    storage.write(key: CacheKey.mailboxPassword, value: password);
+    String password = emailPasswordTextController.text.trim().toString();
+    if (password != "") {
+      storage.write(key: CacheKey.mailboxPassword, value: password);
+    }
+    await startLogging();
   }
 
-  Future<void> startLogging(String email, String password) async {
+  Future<bool> startLogging() async {
+    String email = await storage.read(key: CacheKey.mailboxLogin);
+    String password = await storage.read(key: CacheKey.mailboxPassword);
     await _service.connect(email, password);
-    loadEmails();
+    if (_service.isConnected()) {
+      loadEmails();
+      return true;
+    }
+    return false;
   }
 
   Future<void> loadEmails() async {

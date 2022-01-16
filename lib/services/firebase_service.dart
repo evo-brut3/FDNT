@@ -7,8 +7,13 @@ import 'package:flutter/cupertino.dart';
 class FirebaseService {
 
   final databaseReference = FirebaseDatabase.instance.reference();
+  String userName = "";
   Future<List<Tab>> fetchTabs() async {
-    String userName = await AuthFirebase().userName;
+    try {
+      userName = await AuthFirebase().userName;
+    } on NoSuchMethodError {
+      return [];
+    }
 
     List<Tab> tabs = [];
     if (userName != null) {

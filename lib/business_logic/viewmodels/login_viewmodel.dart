@@ -1,3 +1,4 @@
+import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/services/fdntpl.dart';
 import 'package:fdnt/services/firebase_auth.dart';
 import 'package:fdnt/services/firebase_service.dart';
@@ -22,8 +23,8 @@ class LoginViewModel extends ChangeNotifier {
         context
     );
 
-    storage.write(key: "email", value: emailController.text.trim());
-    storage.write(key: "password", value: passwordController.text.trim());
+    storage.write(key: CacheKey.mailboxLogin, value: emailController.text.trim());
+    storage.write(key: CacheKey.appPassword, value: passwordController.text.trim());
 
     await signInFDNT(emailController.text.trim(), passwordController.text.trim())
         .then((value) => {

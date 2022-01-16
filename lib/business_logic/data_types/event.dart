@@ -34,3 +34,12 @@ class Event {
   bool mandatory;
   String image;
 }
+
+class EventInfo {
+  EventInfo(this.presence, this.excused, this.declaredPresence, this.declaredExcused, this.id);
+  bool presence;
+  bool excused;
+  bool declaredPresence;
+  bool declaredExcused;
+  int id;
+}

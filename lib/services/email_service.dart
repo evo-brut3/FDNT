@@ -7,11 +7,12 @@ import 'package:fdnt/features/flutter_session.dart';
 class EmailService {
   ImapClient _client;
 
-   String _imapServerHost = "mail.dzielo.pl";
-   int _imapServerPort = 993;
-   bool _isImapServerSecure = true;
+  static final String _imapServerHost = "mail.dzielo.pl";
+  static final int _imapServerPort = 993;
+  static final bool _isImapServerSecure = true;
 
   Future<void> connect(String email, String password) async {
+    debugPrint("Trying log in to mail");
     try {
       _client = ImapClient(isLogEnabled: false);
 

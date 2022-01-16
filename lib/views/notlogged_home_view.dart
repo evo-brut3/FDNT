@@ -80,7 +80,7 @@ class _SignInFormState extends State<SignInForm> {
       appBar: CustomAppBar(
         title: "Logowanie",
       ),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             child: TextField(

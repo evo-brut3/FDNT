@@ -1,5 +1,6 @@
 import 'package:fdnt/business_logic/data_types/cache_keys.dart';
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
+import 'package:fdnt/features/flutter_session.dart';
 import 'package:fdnt/views/email_tab/mail_list/emails_list_view.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,8 +20,6 @@ class MainEmailView extends StatefulWidget {
 class _MainEmailViewState extends State<MainEmailView> {
   @override
   Widget build(BuildContext context) {
-    EmailListViewModel emailListViewModel =
-        Provider.of<EmailListViewModel>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
       body: Consumer<EmailListViewModel>(
@@ -31,26 +30,18 @@ class _MainEmailViewState extends State<MainEmailView> {
                 else {
                   return loginToMailbox(context);
                 }
-              }
-          )
+              })
       );
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-  /*Future<String> passwordFetch() async {
-    final storage = FlutterSecureStorage();
-    String password = await storage.read(key: CacheKey.mailboxPassword);
-    if(password == null) return '';
-    return password;
-  }*/
-
-
   Widget loginToMailbox(BuildContext context) {
+    Provider.of<EmailListViewModel>(context, listen: false)
+        .startLogging();
     return Scaffold(
       appBar: CustomAppBar(
-        title: "O Fundacji",
+        title: "Poczta",
       ),
       body: Column(
         children: [

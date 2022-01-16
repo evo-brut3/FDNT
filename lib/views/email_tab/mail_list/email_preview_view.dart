@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'mail_compose/create_mail_view.dart';
 
@@ -22,7 +24,7 @@ class EmailPreviewView extends StatelessWidget {
     debugPrint(content);
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Poczta', isReturnIconEnabled: true),
+      appBar: CustomAppBar(title: 'Poczta'),
       body: SingleChildScrollView(
           child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -38,10 +40,11 @@ class EmailPreviewView extends StatelessWidget {
     );
   }
 
+  // Displaying content of a mail.
   Widget createMessageView() {
-    return Html(
-      data: content,
-      shrinkWrap: true,
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: HtmlWidget(content)
     );
   }
 

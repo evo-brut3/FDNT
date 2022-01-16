@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fdnt/business_logic/viewmodels/email_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/login_viewmodel.dart';
 import 'package:fdnt/business_logic/viewmodels/news_viewmodel.dart';
@@ -9,9 +11,20 @@ import 'package:flutter/material.dart';
 import 'package:fdnt/features/flutter_session.dart';
 import 'package:provider/provider.dart';
 
+// https://fluttercorner.com/certificate-verify-failed-unable-to-get-local-issuer-certificate-in-flutter/
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  HttpOverrides.global = new MyHttpOverrides();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => EmailListViewModel()),

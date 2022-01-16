@@ -1,4 +1,5 @@
 import 'package:fdnt/business_logic/viewmodels/events_viewmodel.dart';
+import 'package:fdnt/services/fdntpl.dart';
 import 'package:fdnt/views/pieces/custom_app_bar.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:intl/intl.dart';
@@ -54,7 +55,7 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
               appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
           onTap: (CalendarTapDetails details) {
             // Show an event when which was tapped
-            if(details.appointments != null &&  details.appointments.length == 1) {
+            if(details.appointments != null &&  details.appointments.length >= 1) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context)
@@ -118,21 +119,36 @@ class _FCalendarViewState extends State<FCalendarView> with SingleTickerProvider
 }
 
 // An event showing
-class EventShow extends StatelessWidget {
-  final Event event;
-  EventShow(this.event);
-
+class _EventShowState extends State<EventShow> {
   final TextStyle textStyle = TextStyle(
       fontSize: 20,
       color: Colors.black,
       );
 
   final EdgeInsets globalInsets = EdgeInsets.symmetric(horizontal: 15, vertical: 13);
+  final EdgeInsets horizontalInsets = EdgeInsets.symmetric(horizontal: 15, vertical: 1);
   final EdgeInsets textInsets = EdgeInsets.symmetric(horizontal: 15);
   final dateFormat = new DateFormat('yyyy-MM-dd hh:mm');
 
+  RichText presenceInfoText(bool yes, String pref) {
+    return RichText(
+      text: TextSpan(
+        style: textStyle,
+        children: <TextSpan>[
+          TextSpan(text: pref),
+          yes ? TextSpan(text: "tak", style: TextStyle(color: Colors.green))
+              : TextSpan(text: "nie", style: TextStyle(color: Colors.red))
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    getEventInfo(-widget.event.id, false);
+
+    final messageController = TextEditingController();
+
     return new Scaffold(
       body: ListView(
         children: [
@@ -145,10 +161,10 @@ class EventShow extends StatelessWidget {
             margin: globalInsets,
             child: Row(
             children: [
-              Icon(Icons.circle, color: event.background),
+              Icon(Icons.circle, color: widget.event.background),
               Flexible(
                   child: Container( margin: textInsets,
-                  child: Text(event.eventName,
+                  child: Text(widget.event.eventName,
                     style: textStyle, overflow: TextOverflow.clip, maxLines: 3,))
               )
             ],
@@ -160,7 +176,7 @@ class EventShow extends StatelessWidget {
                   Icon(Icons.description),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(event.description,
+                          child: Text(widget.event.description,
                             style: textStyle, overflow: TextOverflow.ellipsis, maxLines: 100,))
                   )
                 ],
@@ -172,7 +188,7 @@ class EventShow extends StatelessWidget {
                   Icon(Icons.event),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(event.forWho,
+                          child: Text(widget.event.forWho,
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
@@ -184,7 +200,7 @@ class EventShow extends StatelessWidget {
                   Icon(Icons.access_time),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(dateFormat.format(event.from),
+                          child: Text(dateFormat.format(widget.event.from),
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
@@ -196,7 +212,7 @@ class EventShow extends StatelessWidget {
                   Icon(null),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(dateFormat.format(event.to),
+                          child: Text(dateFormat.format(widget.event.to),
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
@@ -208,16 +224,134 @@ class EventShow extends StatelessWidget {
                   Icon(Icons.assignment_turned_in_sharp),
                   Flexible(
                       child: Container( margin: textInsets,
-                          child: Text(event.mandatory ? "Obowiązkowe" : "Nieobowiązkowe",
+                          child: Text(widget.event.mandatory ? "Obowiązkowe" : "Nieobowiązkowe",
                             style: textStyle, overflow: TextOverflow.ellipsis,))
                   )
                 ],
               )),
+          widget.event.id < 0 ?
+            (!widget.presenceManage ?
+              Container(
+                margin: globalInsets,
+                child: ElevatedButton(
+                  onPressed: () async {
+                      widget.info = await getEventInfo(-widget.event.id, false);
+                      setState(() {
+                        widget.presenceManage = true;
+                      });
+                    },
+                  child: Text('Zarządzaj obecnością'),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12), // <-- Radius
+                    ),
+                  ),
+                )
+              )
+            :
+                Column (
+                  children: [
+                        Container(
+                            padding: horizontalInsets,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await declare(!widget.info.declaredPresence, widget.info.declaredExcused,
+                                                -widget.event.id, false);
+                                widget.info = await getEventInfo(-widget.event.id, false);
+                                setState(() {});
+                              },
+                              child: widget.info.declaredPresence ?
+                                Text('Zadeklaruj obecność') : Text('Zadeklaruj nieobecność'),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12), // <-- Radius
+                                ),
+                              ),
+                            )
+                        ),
+                        Container(
+                            padding: horizontalInsets,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await declare(widget.info.declaredPresence, !widget.info.declaredExcused,
+                                  -widget.event.id, false);
+                                widget.info = await getEventInfo(-widget.event.id, false);
+                                setState(() {});
+                              },
+                              child: widget.info.declaredExcused ?
+                                Text('Zadeklaruj usprawiedliwienie') : Text('Wycofaj usprawiedliwienie'),
+                                style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12), // <-- Radius
+                                ),
+                              ),
+                            )
+                        ),
+                    Padding(
+                        padding: globalInsets
+                    ),
+                    presenceInfoText(widget.info.presence, "Obecność: "),
+                    presenceInfoText(widget.info.excused, "Usprawiedliwiona: "),
+                    Padding(
+                        padding: globalInsets
+                    ),
+                    Padding(
+                      padding: horizontalInsets,
+                      child: TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: messageController,
+                        decoration: InputDecoration(
+                          labelText: "Wiadomość do starosty...",
+                        )
+                      ),
+                    ),
+                    Container(
+                        padding: globalInsets,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            bool ok = await sendMessage(widget.info.id, messageController.value.text);
+                            if (ok) {
+                              showToast("Wiadomość wysłana!", context);
+                              messageController.text = "";
+                            }
+                            else {
+                              showToast("Błąd przy wysyłaniu wiadommości.", context);
+                            }
+                          },
+                          child:Text("Wyślij wiadomość"),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12), // <-- Radius
+                            ),
+                          ),
+                        )
+                    ),
+                    Padding(
+                        padding: globalInsets
+                    ),
+                  ],
+                )
+            ): SizedBox()
         ],
       )
     );
   }
+}
 
+class EventShow extends StatefulWidget {
+  EventShow(this.event, {Key key}) : super(key: key);
+
+  final Event event;
+  EventInfo info;
+  bool presenceManage = false;
+
+
+  @override
+  _EventShowState createState() => _EventShowState();
 }
 
 class EventsDataSource extends CalendarDataSource {
@@ -246,5 +380,13 @@ class EventsDataSource extends CalendarDataSource {
   }
 }
 
+void showToast(String text, BuildContext context) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.showSnackBar(
+    SnackBar(
+      content: Text(text),
+    ),
+  );
+}
 
 
